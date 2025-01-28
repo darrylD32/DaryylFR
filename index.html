@@ -1,222 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spend One Night with Darryl for $5!</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      color: #333;
-      text-align: center;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameOdds - Roulette</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+            color: #fff;
+        }
 
-    header {
-      padding: 50px 20px;
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #1a1a1a;
+        }
 
-    h1 {
-      font-size: 3rem;
-      margin: 0;
-      color: #ff6f61;
-    }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff5722;
+        }
 
-    p {
-      font-size: 1.2rem;
-      margin: 10px 0;
-    }
+        .navbar .balance {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+        .roulette-section {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #1a1a1a;
+        }
 
-    .cta-button {
-      display: inline-block;
-      padding: 15px 30px;
-      font-size: 1.5rem;
-      color: #fff;
-      background: #ff6f61;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-    }
+        .roulette-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
 
-    .cta-button:hover {
-      transform: scale(1.1);
-      background: #ff3b2f;
-    }
+        .roulette-wheel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-    .features {
-      display: flex;
-      justify-content: space-around;
-      margin: 50px 0;
-    }
+        .roulette-wheel .spot {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    .feature {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      width: 30%;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
+        .roulette-wheel .spot.red {
+            background-color: #ff4444;
+        }
 
-    .feature:hover {
-      transform: translateY(-10px);
-    }
+        .roulette-wheel .spot.black {
+            background-color: #333;
+        }
 
-    .feature h3 {
-      font-size: 1.5rem;
-      color: #ff6f61;
-    }
+        .roulette-wheel .spot.green {
+            background-color: #4caf50;
+        }
 
-    .feature p {
-      font-size: 1rem;
-    }
+        .roulette-wheel .spot.selected {
+            border: 3px solid #ff5722;
+        }
 
-    footer {
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      margin-top: 50px;
-    }
+        .bet-options {
+            margin-bottom: 20px;
+        }
 
-    footer p {
-      margin: 0;
-      font-size: 0.9rem;
-    }
+        .bet-options button {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
 
-    /* Roulette Wheel Styles */
-    .roulette-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 50px auto;
-    }
+        .bet-options button:hover {
+            background-color: #e64a19;
+        }
 
-    .roulette-wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: conic-gradient(
-        red 0deg 45deg,
-        green 45deg 90deg,
-        blue 90deg 135deg,
-        yellow 135deg 180deg,
-        purple 180deg 225deg,
-        orange 225deg 270deg,
-        pink 270deg 315deg,
-        cyan 315deg 360deg
-      );
-      position: relative;
-      transition: transform 5s ease-out;
-    }
+        .result {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
 
-    .roulette-pointer {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 30px solid black;
-    }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ccc;
+        }
 
-    .spin-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1.2rem;
-      background: #ff6f61;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+        }
 
-    .spin-button:hover {
-      background: #ff3b2f;
-    }
-  </style>
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Spend One Night with Darryl for $5!</h1>
-    <p>Yes, you read that right. For just $5, you can spend an unforgettable night with the one and only Darryl!</p>
-    <button class="cta-button" onclick="bookNow()">Book Now!</button>
-  </header>
-
-  <div class="container">
-    <!-- Roulette Wheel -->
-    <div class="roulette-container">
-      <div class="roulette-wheel" id="roulette-wheel">
-        <div class="roulette-pointer"></div>
-      </div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">GameOdds</div>
+        <div class="balance">Balance: <span id="balance">100</span> coins</div>
     </div>
-    <button class="spin-button" onclick="spinRoulette()">Spin the Wheel!</button>
 
-    <p>Darryl is a world-renowned celebrity, known for his charm, wit, and unforgettable personality. Don't miss this once-in-a-lifetime opportunity!</p>
-
-    <div class="features">
-      <div class="feature">
-        <h3>🌟 Exclusive Access</h3>
-        <p>Get exclusive access to Darryl's world. Enjoy private conversations, games, and more!</p>
-      </div>
-      <div class="feature">
-        <h3>🍕 Dinner Included</h3>
-        <p>Enjoy a gourmet dinner with Darryl. He might even cook for you!</p>
-      </div>
-      <div class="feature">
-        <h3>📸 Photo Op</h3>
-        <p>Take home a signed photo to remember your incredible night.</p>
-      </div>
+    <!-- Roulette Section -->
+    <div class="roulette-section">
+        <h2>Roulette</h2>
+        <div class="roulette-wheel" id="roulette-wheel">
+            <!-- Spots 1-15 -->
+            <div class="spot red" data-value="1">1</div>
+            <div class="spot black" data-value="2">2</div>
+            <div class="spot red" data-value="3">3</div>
+            <div class="spot black" data-value="4">4</div>
+            <div class="spot red" data-value="5">5</div>
+            <div class="spot black" data-value="6">6</div>
+            <div class="spot red" data-value="7">7</div>
+            <div class="spot black" data-value="8">8</div>
+            <div class="spot red" data-value="9">9</div>
+            <div class="spot black" data-value="10">10</div>
+            <div class="spot red" data-value="11">11</div>
+            <div class="spot black" data-value="12">12</div>
+            <div class="spot red" data-value="13">13</div>
+            <div class="spot black" data-value="14">14</div>
+            <div class="spot green" data-value="15">15</div>
+        </div>
+        <div class="bet-options">
+            <button onclick="placeBet('red')">Bet on Red (2x)</button>
+            <button onclick="placeBet('black')">Bet on Black (2x)</button>
+            <button onclick="placeBet('green')">Bet on Green (14x)</button>
+        </div>
+        <div class="result" id="result"></div>
     </div>
-  </div>
 
-  <footer>
-    <p>Disclaimer: This is a fictional website. Darryl is not real (or is he?).</p>
-  </footer>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
+    </div>
 
-  <script>
-    // Roulette Wheel Functionality
-    function spinRoulette() {
-      const wheel = document.getElementById('roulette-wheel');
-      const spinDuration = 5000; // 5 seconds
-      const randomDegree = Math.floor(Math.random() * 360) + 1440; // Random spin (at least 4 full rotations)
+    <script>
+        let balance = 100;
+        let currentBet = null;
 
-      wheel.style.transform = `rotate(${randomDegree}deg)`;
-      wheel.style.transition = `transform ${spinDuration / 1000}s ease-out`;
+        // Update balance display
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance;
+        }
 
-      // Display result after spin
-      setTimeout(() => {
-        const resultDegree = randomDegree % 360;
-        let result = "";
-        if (resultDegree < 45) result = "Red: Dinner with Darryl!";
-        else if (resultDegree < 90) result = "Green: A Selfie with Darryl!";
-        else if (resultDegree < 135) result = "Blue: A Signed Poster!";
-        else if (resultDegree < 180) result = "Yellow: A Virtual Hangout!";
-        else if (resultDegree < 225) result = "Purple: A Mystery Gift!";
-        else if (resultDegree < 270) result = "Orange: A Shoutout from Darryl!";
-        else if (resultDegree < 315) result = "Pink: A Personalized Message!";
-        else result = "Cyan: A Chance to Spin Again!";
+        // Place a bet
+        function placeBet(color) {
+            if (balance < 10) {
+                alert("You don't have enough coins to bet!");
+                return;
+            }
 
-        alert(`Congratulations! You won: ${result}`);
-      }, spinDuration);
-    }
+            currentBet = color;
+            balance -= 10; // Deduct 10 coins for the bet
+            updateBalance();
 
-    // Book Now Function
-    function bookNow() {
-      alert("Congratulations! You've booked your night with Darryl. Get ready for the time of your life!");
-    }
-  </script>
+            // Spin the roulette
+            spinRoulette();
+        }
+
+        // Spin the roulette
+        function spinRoulette() {
+            const spots = document.querySelectorAll('.roulette-wheel .spot');
+            const resultElement = document.getElementById('result');
+
+            // Randomly select a winning spot (1-15)
+            const winningSpot = Math.floor(Math.random() * 15) + 1;
+            const winningColor = document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('red') ? 'red' :
+                                document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('black') ? 'black' : 'green';
+
+            // Highlight the winning spot
+            spots.forEach(spot => spot.classList.remove('selected'));
+            document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.add('selected');
+
+            // Check if the player won
+            if (currentBet === winningColor) {
+                const multiplier = winningColor === 'green' ? 14 : 2;
+                balance += 10 * multiplier; // Add winnings to balance
+                resultElement.textContent = `You won ${10 * multiplier} coins!`;
+            } else {
+                resultElement.textContent = `You lost 10 coins.`;
+            }
+
+            updateBalance();
+            currentBet = null; // Reset the bet
+        }
+    </script>
 </body>
 </html>
