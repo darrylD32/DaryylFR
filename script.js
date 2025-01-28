@@ -31,48 +31,7 @@ function placeBet(color) {
     }, 1000);
 }
 
-function spinWheel() {
-    spinCount++;
-    
-    // Add more wheel content to keep it continuous
-    if (spinCount % 2 === 0) { // Every 2 spins, add more content
-        wheel.innerHTML += wheelContent; // Append the existing wheel content
-    }
-    
-    const result = Math.floor(Math.random() * 15); // Random number 0-14
-    const resultElement = document.getElementById('result');
-    
-    // Continue from where it left off rather than resetting
-    let currentTransform = window.getComputedStyle(wheel).transform;
-    let matrix = new DOMMatrix(currentTransform);
-    let translateX = matrix.m41 || 0; // Current translateX value
-
-    wheel.style.animation = `none`;
-    wheel.offsetHeight; // Trigger reflow to reset animation
-
-    // Calculate new animation duration based on current position
-    let duration = 5 + (Math.abs(translateX) / 60); // Adjust duration based on how far wheel has moved
-
-    wheel.style.animation = `spin ${duration}s cubic-bezier(0.25, 0.1, 0.25, 1) forwards`;
-    wheel.style.animationPlayState = 'running'; // Ensure animation starts
-
-    setTimeout(() => {
-        let winningColor = result === 14 ? 'green' : result % 2 === 0 ? 'red' : 'black';
-        if (currentBet === winningColor) {
-            let multiplier = winningColor === 'green' ? 14 : 2;
-            balance += 10 * multiplier;
-            resultElement.textContent = `You won ${10 * multiplier} coins!`;
-        } else {
-            resultElement.textContent = "You lost 10 coins.";
-        }
-        document.getElementById('balance').textContent = balance;
-    }, duration * 1000); // Wait for spin animation, adjust based on duration
-}
-
-// Reset wheel position for continuous effect
-wheel.addEventListener('animationend', () => {
-    wheel.style.animation = 'none';
-    setTimeout(() => wheel.style.animation = '', 10); // Reset immediately
+// Implement spinWheel function here
 });
 
 // Initial setup for wheel
