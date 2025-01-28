@@ -3,24 +3,7 @@ let currentBet = null;
 let wheel = document.getElementById('roulette-wheel');
 let wheelContent = wheel.innerHTML;
 let spinCount = 0;
-let lastResult = 0; // To keep track of where the wheel should start
-
-// Adding a winning indicator line
-const winningIndicator = document.createElement('div');
-winningIndicator.className = 'winning-indicator';
-wheel.parentElement.appendChild(winningIndicator);
-
-// Function to show bet placed
-function showBetPlaced(color) {
-    const betPlacedElement = document.querySelector('.bet-placed');
-    if (betPlacedElement) {
-        wheel.parentElement.removeChild(betPlacedElement);
-    }
-    const newBetPlacedElement = document.createElement('div');
-    newBetPlacedElement.className = 'bet-placed';
-    newBetPlacedElement.textContent = `Bet placed on ${color}`;
-    wheel.parentElement.appendChild(newBetPlacedElement);
-}
+let lastResult = 0;
 
 function placeBet(color) {
     if (balance < 10) {
@@ -30,7 +13,7 @@ function placeBet(color) {
     currentBet = color;
     balance -= 10;
     document.getElementById('balance').textContent = balance;
-    showBetPlaced(color);
+    document.getElementById('bet-placed').textContent = `Bet placed on ${color}`;
 }
 
 function spinWheel() {
@@ -55,8 +38,10 @@ function spinWheel() {
     wheel.style.transition = 'none';
     
     // Spin animation
-    wheel.style.transition = `transform ${5 + (spinCount / 2)}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
-    wheel.style.transform = `translateX(-${(result * 60) + translateX}px)`;
+    setTimeout(() => {
+        wheel.style.transition = `transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)`;
+        wheel.style.transform = `translateX(-${(result * 60) + translateX}px)`;
+    }, 10);
     
     // Update lastResult for next spin
     lastResult = result;
@@ -86,14 +71,12 @@ function spinWheel() {
                 resultElement.textContent = `Result: ${winningColor}`;
             }
             document.getElementById('balance').textContent = balance;
+            document.getElementById('bet-placed').textContent = ''; // Clear bet message
             currentBet = null; // Reset bet for next round
         }
         countdown--;
     }, 1000);
-    
-    // Schedule next spin regardless of bet
-    setTimeout(spinWheel, 5000);
 }
 
-// Start the wheel spinning
-spinWheel();
+// Start the wheel spinning every 5 seconds
+setInterval(spinWheel, 5000);
