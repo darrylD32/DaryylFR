@@ -45,23 +45,32 @@
             margin-bottom: 20px;
         }
 
+        .roulette-wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 5px solid #ff5722;
+            border-radius: 50%;
+        }
+
         .roulette-wheel {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            position: absolute;
+            width: 1000px; /* Large enough to animate spinning */
+            height: 300px;
+            transition: transform 5s ease-out;
         }
 
         .roulette-wheel .spot {
-            width: 50px;
-            height: 50px;
+            flex: 1;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 18px;
         }
 
         .roulette-wheel .spot.red {
@@ -76,8 +85,10 @@
             background-color: #4caf50;
         }
 
-        .roulette-wheel .spot.selected {
-            border: 3px solid #ff5722;
+        .countdown {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .bet-options {
@@ -103,29 +114,6 @@
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 20px;
-        }
-
-        .bets-list {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .bets-list h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .bets-list ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .bets-list ul li {
-            font-size: 16px;
-            margin-bottom: 5px;
         }
 
         .footer {
@@ -155,23 +143,18 @@
     <!-- Roulette Section -->
     <div class="roulette-section">
         <h2>Roulette</h2>
-        <div class="roulette-wheel" id="roulette-wheel">
-            <!-- Spots 1-15 -->
-            <div class="spot red" data-value="1">1</div>
-            <div class="spot black" data-value="2">2</div>
-            <div class="spot red" data-value="3">3</div>
-            <div class="spot black" data-value="4">4</div>
-            <div class="spot red" data-value="5">5</div>
-            <div class="spot black" data-value="6">6</div>
-            <div class="spot red" data-value="7">7</div>
-            <div class="spot black" data-value="8">8</div>
-            <div class="spot red" data-value="9">9</div>
-            <div class="spot black" data-value="10">10</div>
-            <div class="spot red" data-value="11">11</div>
-            <div class="spot black" data-value="12">12</div>
-            <div class="spot red" data-value="13">13</div>
-            <div class="spot black" data-value="14">14</div>
-            <div class="spot green" data-value="15">15</div>
+        <div class="countdown" id="countdown">Next spin in: 15 seconds</div>
+        <div class="roulette-wheel-container">
+            <div class="roulette-wheel" id="roulette-wheel">
+                <!-- Spots (Repeated for a spinning effect) -->
+                <div class="spot red" data-color="red">Red</div>
+                <div class="spot black" data-color="black">Black</div>
+                <div class="spot green" data-color="green">Green</div>
+                <!-- Repeat -->
+                <div class="spot red" data-color="red">Red</div>
+                <div class="spot black" data-color="black">Black</div>
+                <div class="spot green" data-color="green">Green</div>
+            </div>
         </div>
         <div class="bet-options">
             <button onclick="placeBet('red')">Bet on Red (2x)</button>
@@ -179,10 +162,6 @@
             <button onclick="placeBet('green')">Bet on Green (14x)</button>
         </div>
         <div class="result" id="result"></div>
-        <div class="bets-list">
-            <h3>Player Bets</h3>
-            <ul id="bets-list"></ul>
-        </div>
     </div>
 
     <!-- Footer -->
@@ -193,85 +172,77 @@
     <script>
         let balance = 100;
         let currentBet = null;
-        let playerName = '';
-        let bets = [];
+        let currentBetColor = null;
+        let countdown = 15;
 
-        // Prompt for player name
-        playerName = prompt("Enter your player name:");
-        if (!playerName) {
-            playerName = 'Player';
-        }
+        const countdownElement = document.getElementById('countdown');
+        const resultElement = document.getElementById('result');
+        const wheel = document.getElementById('roulette-wheel');
+        const balanceElement = document.getElementById('balance');
 
-        // Update balance display
+        // Update Balance
         function updateBalance() {
-            document.getElementById('balance').textContent = balance;
+            balanceElement.textContent = balance;
         }
 
-        // Place a bet
+        // Place Bet
         function placeBet(color) {
             if (balance < 10) {
                 alert("You don't have enough coins to bet!");
                 return;
             }
-
-            currentBet = color;
-            balance -= 10; // Deduct 10 coins for the bet
+            if (currentBet) {
+                alert("You already placed a bet for this round!");
+                return;
+            }
+            currentBet = 10; // Fixed bet amount
+            currentBetColor = color;
+            balance -= currentBet;
             updateBalance();
-
-            // Add bet to the list
-            bets.push({ name: playerName, bet: color, amount: 10 });
-            updateBetsList();
-
-            // Spin the roulette
-            spinRoulette();
+            resultElement.textContent = `You placed 10 coins on ${color}.`;
         }
 
-        // Update bets list
-        function updateBetsList() {
-            const betsList = document.getElementById('bets-list');
-            betsList.innerHTML = '';
-            bets.forEach(bet => {
-                const li = document.createElement('li');
-                li.textContent = `${bet.name}: ${bet.amount} coins on ${bet.bet}`;
-                betsList.appendChild(li);
-            });
-        }
-
-        // Spin the roulette
+        // Spin the Roulette
         function spinRoulette() {
-            const spots = document.querySelectorAll('.roulette-wheel .spot');
-            const resultElement = document.getElementById('result');
+            const outcomeIndex = Math.floor(Math.random() * 3); // 0: red, 1: black, 2: green
+            const outcomes = ['red', 'black', 'green'];
+            const winningColor = outcomes[outcomeIndex];
 
-            // Randomly select a winning spot (1-15)
-            const winningSpot = Math.floor(Math.random() * 15) + 1;
-            const winningColor = document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('red') ? 'red' :
-                                document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('black') ? 'black' : 'green';
+            // Spin animation
+            wheel.style.transform = `translateX(-${outcomeIndex * 300}px)`; // Adjust based on slot size
 
-            // Highlight the winning spot
-            spots.forEach(spot => spot.classList.remove('selected'));
-            document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.add('selected');
-
-            // Check if the player won
-            if (currentBet === winningColor) {
-                const multiplier = winningColor === 'green' ? 14 : 2;
-                balance += 10 * multiplier; // Add winnings to balance
-                resultElement.textContent = `You won ${10 * multiplier} coins!`;
-            } else {
-                resultElement.textContent = `You lost 10 coins.`;
-            }
-
-            updateBalance();
-            currentBet = null; // Reset the bet
+            // Wait for animation to finish
+            setTimeout(() => {
+                if (currentBetColor === winningColor) {
+                    const multiplier = winningColor === 'green' ? 14 : 2;
+                    const winnings = currentBet * multiplier;
+                    balance += winnings;
+                    resultElement.textContent = `You won ${winnings} coins!`;
+                } else {
+                    resultElement.textContent = `You lost your bet!`;
+                }
+                currentBet = null; // Reset bet
+                currentBetColor = null;
+                updateBalance();
+            }, 5000); // Wait for animation (5 seconds)
         }
 
-        // Auto spin every 15 seconds
-        setInterval(() => {
-            if (bets.length > 0) {
-                spinRoulette();
-                bets = []; // Clear bets after spinning
-                updateBetsList();
-            }
-        }, 15000);
+        // Countdown Timer
+        function startCountdown() {
+            const interval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = `Next spin in: ${countdown} seconds`;
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    spinRoulette();
+                    countdown = 15; // Reset countdown
+                    startCountdown();
+                }
+            }, 1000);
+        }
+
+        // Start Countdown on Load
+        startCountdown();
     </script>
 </body>
 </html>
