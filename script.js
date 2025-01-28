@@ -35,23 +35,25 @@ function spinWheel() {
     spinCount++;
     
     // Add more wheel content to keep it continuous
-    if (spinCount % 2 === 0) { // Every 2 spins, add more content
-        wheel.innerHTML += wheelContent; // Append the existing wheel content
+    // This logic now checks if the wheel has scrolled less than 50% of its content
+    let currentTransform = window.getComputedStyle(wheel).transform;
+    let matrix = new DOMMatrix(currentTransform);
+    let translateX = Math.abs(matrix.m41 || 0); // Get the absolute value of translateX
+    let wheelWidth = wheel.scrollWidth; // Total width of the wheel
+
+    if (translateX > wheelWidth / 2) {
+        wheel.innerHTML += wheelContent; // Append the existing wheel content if we're past halfway
     }
     
     const result = Math.floor(Math.random() * 15); // Random number 0-14
     const resultElement = document.getElementById('result');
     
     // Continue from where it left off rather than resetting
-    let currentTransform = window.getComputedStyle(wheel).transform;
-    let matrix = new DOMMatrix(currentTransform);
-    let translateX = matrix.m41 || 0; // Current translateX value
-
     wheel.style.animation = `none`;
     wheel.offsetHeight; // Trigger reflow to reset animation
 
     // Calculate new animation duration based on current position
-    let duration = 5 + (Math.abs(translateX) / 60); // Adjust duration based on how far wheel has moved
+    let duration = 5 + (translateX / 60); // Adjust duration based on how far wheel has moved
 
     wheel.style.animation = `spin ${duration}s cubic-bezier(0.25, 0.1, 0.25, 1) forwards`;
     wheel.style.animationPlayState = 'running'; // Ensure animation starts
