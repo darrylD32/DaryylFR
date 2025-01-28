@@ -58,40 +58,9 @@
       height: 100px;
       background-size: cover;
       border-radius: 50%;
-      animation: bounce 2s infinite linear;
       z-index: 5;
+      animation: none; /* Disable CSS animation */
     }
-
-    /* Random bounce animation */
-    @keyframes bounce {
-      0% {
-        transform: translate(0, 0);
-      }
-      25% {
-        transform: translate(100px, 150px);
-      }
-      50% {
-        transform: translate(200px, -100px);
-      }
-      75% {
-        transform: translate(-50px, 200px);
-      }
-      100% {
-        transform: translate(-200px, -150px);
-      }
-    }
-
-    /* Cat images and positions */
-    .cat1 { background-image: url('https://cdn2.thecatapi.com/images/j9q.jpg'); }
-    .cat2 { background-image: url('https://cdn2.thecatapi.com/images/c5b.jpg'); }
-    .cat3 { background-image: url('https://cdn2.thecatapi.com/images/ckz.jpg'); }
-    .cat4 { background-image: url('https://cdn2.thecatapi.com/images/c97.jpg'); }
-    .cat5 { background-image: url('https://cdn2.thecatapi.com/images/c9o.jpg'); }
-    .cat6 { background-image: url('https://cdn2.thecatapi.com/images/a0g.jpg'); }
-    .cat7 { background-image: url('https://cdn2.thecatapi.com/images/cos.jpg'); }
-    .cat8 { background-image: url('https://cdn2.thecatapi.com/images/ajy.jpg'); }
-    .cat9 { background-image: url('https://cdn2.thecatapi.com/images/djr.jpg'); }
-    .cat10 { background-image: url('https://cdn2.thecatapi.com/images/cg4.jpg'); }
 
   </style>
 </head>
@@ -102,17 +71,77 @@
     $5 A NIGHT FOR DARRYL
   </div>
 
-  <!-- Bouncing cats -->
-  <div class="cat cat1" style="top: 5%; left: 5%; animation-duration: 2s;"></div>
-  <div class="cat cat2" style="top: 10%; left: 30%; animation-duration: 3s;"></div>
-  <div class="cat cat3" style="top: 20%; left: 50%; animation-duration: 4s;"></div>
-  <div class="cat cat4" style="top: 40%; left: 70%; animation-duration: 2.5s;"></div>
-  <div class="cat cat5" style="top: 60%; left: 80%; animation-duration: 3s;"></div>
-  <div class="cat cat6" style="top: 15%; left: 85%; animation-duration: 2.7s;"></div>
-  <div class="cat cat7" style="top: 50%; left: 10%; animation-duration: 3.5s;"></div>
-  <div class="cat cat8" style="top: 75%; left: 25%; animation-duration: 3.2s;"></div>
-  <div class="cat cat9" style="top: 30%; left: 55%; animation-duration: 4s;"></div>
-  <div class="cat cat10" style="top: 80%; left: 40%; animation-duration: 3.5s;"></div>
+  <!-- Bouncing cats will be added dynamically -->
+  <div id="catContainer"></div>
+
+  <script>
+    // Create an array of cat images
+    const catImages = [
+      'https://cdn2.thecatapi.com/images/j9q.jpg',
+      'https://cdn2.thecatapi.com/images/c5b.jpg',
+      'https://cdn2.thecatapi.com/images/ckz.jpg',
+      'https://cdn2.thecatapi.com/images/c97.jpg',
+      'https://cdn2.thecatapi.com/images/c9o.jpg',
+      'https://cdn2.thecatapi.com/images/a0g.jpg',
+      'https://cdn2.thecatapi.com/images/cos.jpg',
+      'https://cdn2.thecatapi.com/images/ajy.jpg',
+      'https://cdn2.thecatapi.com/images/djr.jpg',
+      'https://cdn2.thecatapi.com/images/cg4.jpg'
+    ];
+
+    // Create cats and add them to the page
+    function createCat() {
+      const cat = document.createElement('div');
+      const randomImage = catImages[Math.floor(Math.random() * catImages.length)];
+      cat.classList.add('cat');
+      cat.style.backgroundImage = `url(${randomImage})`;
+
+      // Set initial position and velocity
+      cat.style.top = `${Math.random() * window.innerHeight}px`;
+      cat.style.left = `${Math.random() * window.innerWidth}px`;
+      document.getElementById('catContainer').appendChild(cat);
+
+      let velocityX = (Math.random() - 0.5) * 4; // Random X velocity
+      let velocityY = (Math.random() - 0.5) * 4; // Random Y velocity
+
+      function moveCat() {
+        const catRect = cat.getBoundingClientRect();
+        const textBoxRect = document.querySelector('.text-box').getBoundingClientRect();
+
+        // Move the cat
+        cat.style.left = `${cat.offsetLeft + velocityX}px`;
+        cat.style.top = `${cat.offsetTop + velocityY}px`;
+
+        // Bounce off the edges of the screen
+        if (catRect.left <= 0 || catRect.right >= window.innerWidth) velocityX = -velocityX;
+        if (catRect.top <= 0 || catRect.bottom >= window.innerHeight) velocityY = -velocityY;
+
+        // Bounce off the text box
+        if (
+          catRect.left < textBoxRect.right && catRect.right > textBoxRect.left &&
+          catRect.top < textBoxRect.bottom && catRect.bottom > textBoxRect.top
+        ) {
+          if (catRect.left < textBoxRect.left || catRect.right > textBoxRect.right) {
+            velocityX = -velocityX; // Bounce on horizontal sides of the text box
+          }
+          if (catRect.top < textBoxRect.top || catRect.bottom > textBoxRect.bottom) {
+            velocityY = -velocityY; // Bounce on vertical sides of the text box
+          }
+        }
+
+        // Continue moving the cat
+        requestAnimationFrame(moveCat);
+      }
+
+      // Start moving the cat
+      moveCat();
+    }
+
+    // Create multiple cats
+    for (let i = 0; i < 10; i++) {
+      createCat();
+    }
+  </script>
 
 </body>
 </html>
