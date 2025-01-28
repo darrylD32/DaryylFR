@@ -1,143 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
-<script src="script.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameOdds - Roulette</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #0e0e0e;
-            color: #fff;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: #1a1a1a;
-        }
-
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ff5722;
-        }
-
-        .navbar .balance {
-            font-size: 18px;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .roulette-section {
-            text-align: center;
-            padding: 50px 20px;
-            background-color: #1a1a1a;
-        }
-
-        .roulette-wheel-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            height: 80px;
-            margin: 20px 0;
-            background-color: #222;
-            border-radius: 10px;
-        }
-
-        .roulette-wheel {
-            display: flex;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-
-        .spot {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60px;
-            height: 60px;
-            margin: 10px;
-            font-weight: 700;
-            font-size: 16px;
-            color: #fff;
-            border-radius: 10px;
-            flex-shrink: 0;
-        }
-
-        .spot.red {
-            background-color: #ff4444;
-        }
-
-        .spot.black {
-            background-color: #333;
-        }
-
-        .spot.green {
-            background-color: #4caf50;
-        }
-
-        .bet-options {
-            margin-bottom: 20px;
-        }
-
-        .bet-options button {
-            background-color: #ff5722;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-
-        .bet-options button:hover {
-            background-color: #e64a19;
-        }
-
-        .result {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #ccc;
-        }
-
-        .footer a {
-            color: #ff5722;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        #countdown {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            font-weight: bold;
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -149,10 +17,26 @@
     <!-- Roulette Section -->
     <div class="roulette-section">
         <h2>Roulette</h2>
-        <div id="countdown">5</div>
         <div class="roulette-wheel-container">
             <div class="roulette-wheel" id="roulette-wheel">
-                <!-- Initial spots on the wheel -->
+                <!-- Spots repeated to simulate seamless scrolling -->
+                <div class="spot red">0</div>
+                <div class="spot black">1</div>
+                <div class="spot red">2</div>
+                <div class="spot black">3</div>
+                <div class="spot red">4</div>
+                <div class="spot black">5</div>
+                <div class="spot red">6</div>
+                <div class="spot black">7</div>
+                <div class="spot red">8</div>
+                <div class="spot black">9</div>
+                <div class="spot red">10</div>
+                <div class="spot black">11</div>
+                <div class="spot red">12</div>
+                <div class="spot black">13</div>
+                <div class="spot green">14</div>
+
+                <!-- Repeated for seamless effect -->
                 <div class="spot red">0</div>
                 <div class="spot black">1</div>
                 <div class="spot red">2</div>
@@ -180,86 +64,9 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
+        <p>© 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
     </div>
 
-    <script>
-        let balance = 100;
-        let currentBet = null;
-        let currentPosition = 0;
-        let countdownValue = 5;
-        let countdownTimer;
-        const spinDistance = 1600;  // Distance for each spin
-        const wheel = document.getElementById('roulette-wheel');
-
-        // Function to place a bet
-        function placeBet(color) {
-            if (balance < 10) {
-                alert("You don't have enough coins to bet!");
-                return;
-            }
-            currentBet = color;
-            balance -= 10;
-            document.getElementById('balance').textContent = balance;
-            countdownValue = 5;
-            countdown();
-        }
-
-        // Function to start the spin
-        function startSpin() {
-            currentPosition += spinDistance;
-            wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-            wheel.style.transform = `translateX(-${currentPosition}px)`;
-
-            // After the spin finishes, append new spots to the wheel
-            setTimeout(() => {
-                wheel.style.transition = 'none';
-                wheel.style.transform = `translateX(-${currentPosition}px)`;
-
-                // Add new spots to keep the wheel infinite
-                const spots = [
-                    { color: 'red', number: Math.floor(Math.random() * 100) },
-                    { color: 'black', number: Math.floor(Math.random() * 100) },
-                    { color: 'green', number: Math.floor(Math.random() * 100) }
-                ];
-                spots.forEach(spot => {
-                    const newSpot = document.createElement('div');
-                    newSpot.classList.add('spot', spot.color);
-                    newSpot.textContent = spot.number;
-                    wheel.appendChild(newSpot);
-                });
-
-                spinWheel();
-            }, 5000); // Wait for the spin animation to finish
-        }
-
-        // Function to keep the wheel spinning indefinitely
-        function spinWheel() {
-            setInterval(() => {
-                currentPosition += spinDistance;
-                wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-                wheel.style.transform = `translateX(-${currentPosition}px)`;
-            }, 5000); // Spin every 5 seconds
-        }
-
-        // Countdown function
-        function countdown() {
-            document.getElementById("countdown").style.display = "block";
-            countdownTimer = setInterval(() => {
-                document.getElementById("countdown").textContent = countdownValue;
-                if (countdownValue <= 0) {
-                    clearInterval(countdownTimer);
-                    document.getElementById("countdown").style.display = "none";
-                    startSpin();
-                } else {
-                    countdownValue--;
-                }
-            }, 1000);
-        }
-
-        // Initial spin when page loads
-        spinWheel();
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>
-
