@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Main Site Title</title>
+    <title>Horizontal Roulette</title>
     <style>
         body {
             margin: 0;
@@ -14,21 +14,6 @@
             overflow: hidden;
         }
 
-        /* Main container for your website content */
-        .main-content {
-            width: 100%;
-            padding: 20px;
-        }
-
-        /* Your existing site styles (example placeholder for general content) */
-        .site-header {
-            text-align: center;
-            padding: 20px;
-            font-size: 24px;
-            background-color: #333;
-        }
-
-        /* The roulette container */
         .roulette-container {
             position: relative;
             width: 100%;
@@ -99,43 +84,24 @@
     </style>
 </head>
 <body>
-
-    <!-- Main Site Header -->
-    <div class="site-header">
-        <h1>Welcome to My Website</h1>
-        <p>Here is some text and content you can have for your main site.</p>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="main-content">
-        <h2>Roulette Spin Game</h2>
-        <p>Try your luck with the roulette wheel!</p>
-
-        <!-- Roulette Game -->
-        <div class="roulette-container">
-            <div id="countdown">5</div>
-            <div class="highlight-bar"></div>
-            <div class="roulette-wheel" id="roulette-wheel">
-                <!-- Adding numbers/icons to loop seamlessly -->
-                <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
-                <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
-                <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
-                <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
-                <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
-                <!-- Duplicate for seamless effect -->
-                <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
-                <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
-                <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
-                <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
-                <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
-            </div>
+    <div class="roulette-container">
+        <div id="countdown">5</div>
+        <div class="highlight-bar"></div>
+        <div class="roulette-wheel" id="roulette-wheel">
+            <!-- Adding numbers/icons to loop seamlessly -->
+            <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
+            <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
+            <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
+            <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
+            <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
+            <!-- Duplicate for seamless effect -->
+            <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
+            <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
+            <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
+            <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
+            <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer style="background-color: #333; padding: 20px; text-align: center;">
-        <p>Footer Content Here</p>
-    </footer>
 
     <script>
         const wheel = document.getElementById("roulette-wheel");
@@ -143,16 +109,16 @@
         let currentPosition = 0; // Track the position of the last spin
         let countdownValue = 5;
         let countdownTimer;
+        let spinDistance = 1600; // Define the spin distance
 
         function startSpin() {
             // Hide countdown and start spinning
             countdownElement.style.display = "none";
-            const spinDistance = 1600; // Adjust for smooth looping
-
+            
             currentPosition += spinDistance; // Move to the next position
             wheel.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
             wheel.style.transform = `translateX(-${currentPosition}px)`;
-            
+
             // After spin, reset the transition and prepare for the next spin
             setTimeout(() => {
                 wheel.style.transition = "none";
@@ -185,3 +151,4 @@
     </script>
 </body>
 </html>
+
