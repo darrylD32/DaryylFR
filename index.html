@@ -3,44 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horizontal Roulette</title>
+    <title>GameOdds - Roulette</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #121212;
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
             color: #fff;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
         }
 
-        .roulette-container {
-            position: relative;
-            width: 100%;
-            height: 10vh; /* Slightly smaller than your example */
-            overflow: hidden;
+        .navbar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            padding: 20px 40px;
+            background-color: #1a1a1a;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff5722;
+        }
+
+        .navbar .balance {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .roulette-section {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #1a1a1a;
+        }
+
+        .roulette-wheel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 80px;
+            margin: 20px 0;
+            background-color: #222;
+            border-radius: 10px;
         }
 
         .roulette-wheel {
             display: flex;
-            position: relative;
-            will-change: transform;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
         .spot {
-            width: 80px;
-            height: 80px;
-            margin: 5px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 10px;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+            font-weight: 700;
+            font-size: 16px;
             color: #fff;
+            border-radius: 10px;
+            flex-shrink: 0;
         }
 
         .spot.red {
@@ -48,27 +78,52 @@
         }
 
         .spot.black {
-            background-color: #1a1a1a;
+            background-color: #333;
         }
 
         .spot.green {
             background-color: #4caf50;
         }
 
-        .spot img {
-            width: 60%;
-            height: auto;
+        .bet-options {
+            margin-bottom: 20px;
         }
 
-        .highlight-bar {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 5px;
-            background-color: #fff;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+        .bet-options button {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .bet-options button:hover {
+            background-color: #e64a19;
+        }
+
+        .result {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ccc;
+        }
+
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         #countdown {
@@ -83,79 +138,110 @@
     </style>
 </head>
 <body>
-    <div class="roulette-container">
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">GameOdds</div>
+        <div class="balance">Balance: <span id="balance">100</span> coins</div>
+    </div>
+
+    <!-- Roulette Section -->
+    <div class="roulette-section">
+        <h2>Roulette</h2>
         <div id="countdown">5</div>
-        <div class="highlight-bar"></div>
-        <div class="roulette-wheel" id="roulette-wheel">
-            <!-- Adding numbers/icons to loop seamlessly -->
-            <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
-            <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
-            <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
-            <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
-            <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
-            <!-- Duplicate for seamless effect -->
-            <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
-            <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
-            <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
-            <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
-            <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
+        <div class="roulette-wheel-container">
+            <div class="roulette-wheel" id="roulette-wheel">
+                <!-- Spots repeated to simulate seamless scrolling -->
+                <div class="spot red">0</div>
+                <div class="spot black">1</div>
+                <div class="spot red">2</div>
+                <div class="spot black">3</div>
+                <div class="spot red">4</div>
+                <div class="spot black">5</div>
+                <div class="spot red">6</div>
+                <div class="spot black">7</div>
+                <div class="spot red">8</div>
+                <div class="spot black">9</div>
+                <div class="spot red">10</div>
+                <div class="spot black">11</div>
+                <div class="spot red">12</div>
+                <div class="spot black">13</div>
+                <div class="spot green">14</div>
+
+                <!-- Repeated for seamless effect -->
+                <div class="spot red">0</div>
+                <div class="spot black">1</div>
+                <div class="spot red">2</div>
+                <div class="spot black">3</div>
+                <div class="spot red">4</div>
+                <div class="spot black">5</div>
+                <div class="spot red">6</div>
+                <div class="spot black">7</div>
+                <div class="spot red">8</div>
+                <div class="spot black">9</div>
+                <div class="spot red">10</div>
+                <div class="spot black">11</div>
+                <div class="spot red">12</div>
+                <div class="spot black">13</div>
+                <div class="spot green">14</div>
+            </div>
         </div>
+        <div class="bet-options">
+            <button onclick="placeBet('red')">Bet on Red (2x)</button>
+            <button onclick="placeBet('black')">Bet on Black (2x)</button>
+            <button onclick="placeBet('green')">Bet on Green (14x)</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
     </div>
 
     <script>
-        const wheel = document.getElementById("roulette-wheel");
-        const countdownElement = document.getElementById("countdown");
+        let balance = 100;
+        let currentBet = null;
         let currentPosition = 0;
         let countdownValue = 5;
         let countdownTimer;
-        const spinDistance = 1600;  // The distance the wheel moves per spin
+        const spinDistance = 1600;  // Distance for each spin
 
-        const icons = [
-            "path-to-icon1.png",
-            "path-to-icon2.png",
-            "path-to-icon3.png",
-            "path-to-icon4.png",
-            "path-to-icon5.png"
-        ];
-
-        function addNewSpots() {
-            // Add new spots dynamically to ensure smooth loop
-            const spots = icons.map((src, index) => {
-                const spot = document.createElement('div');
-                spot.classList.add('spot', index % 2 === 0 ? 'red' : 'black');
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `Icon ${index + 1}`;
-                spot.appendChild(img);
-                return spot;
-            });
-
-            spots.forEach(spot => wheel.appendChild(spot));
+        function placeBet(color) {
+            if (balance < 10) {
+                alert("You don't have enough coins to bet!");
+                return;
+            }
+            currentBet = color;
+            balance -= 10;
+            document.getElementById('balance').textContent = balance;
+            countdownValue = 5;
+            countdown();
         }
 
-        function startSpin() {
-            // Hide countdown and start spinning
-            countdownElement.style.display = "none";
-
-            currentPosition += spinDistance; // Increment the position by the spin distance
-            wheel.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
-            wheel.style.transform = `translateX(-${currentPosition}px)`;
-
-            // After the spin, reset the transition to prepare for the next round
+        function spinWheel() {
+            const result = Math.floor(Math.random() * 15); // Random number 0-14
+            const resultElement = document.getElementById('result');
             setTimeout(() => {
-                wheel.style.transition = "none";
-                wheel.style.transform = `translateX(-${currentPosition}px)`;
-
-                // Add new spots for the next round
-                addNewSpots();
-            }, 4000);
+                let winningColor = result === 14 ? 'green' : result % 2 === 0 ? 'red' : 'black';
+                if (currentBet === winningColor) {
+                    let multiplier = winningColor === 'green' ? 14 : 2;
+                    balance += 10 * multiplier;
+                    resultElement.textContent = `You won ${10 * multiplier} coins!`;
+                } else {
+                    resultElement.textContent = `You lost 10 coins.`;
+                }
+                document.getElementById('balance').textContent = balance;
+            }, 5000); // Wait for spin animation
         }
 
+        // Countdown function
         function countdown() {
+            document.getElementById("countdown").style.display = "block";
             countdownTimer = setInterval(() => {
-                countdownElement.textContent = countdownValue;
+                document.getElementById("countdown").textContent = countdownValue;
                 if (countdownValue <= 0) {
                     clearInterval(countdownTimer);
+                    document.getElementById("countdown").style.display = "none";
                     startSpin();
                 } else {
                     countdownValue--;
@@ -163,15 +249,27 @@
             }, 1000);
         }
 
-        // Start countdown on page load
-        countdown();
+        function startSpin() {
+            currentPosition += spinDistance;
+            const wheel = document.getElementById('roulette-wheel');
+            wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            wheel.style.transform = `translateX(-${currentPosition}px)`;
 
-        // Trigger the next countdown and spin after a delay
-        setInterval(() => {
-            countdownValue = 5;
-            countdownElement.style.display = "block";
-            countdown();
-        }, 5000);  // 5 seconds between each spin
+            // Reset wheel after spin
+            setTimeout(() => {
+                wheel.style.transition = 'none';
+                wheel.style.transform = `translateX(-${currentPosition}px)`;
+                spinWheel();
+            }, 5000);
+        }
+
+        // Reset wheel position
+        const wheel = document.getElementById('roulette-wheel');
+        wheel.addEventListener('animationiteration', () => {
+            wheel.style.animation = 'none';
+            setTimeout(() => wheel.style.animation = '', 10);
+        });
     </script>
 </body>
 </html>
+
