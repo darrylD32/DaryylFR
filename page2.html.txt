@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Your Fun Night with Darryl!</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 64px;
+      color: #ff66cc;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      margin-top: 20px;
+      color: #fff;
+    }
+
+    /* Button to go back to main page */
+    .back-button {
+      background-color: #ff66cc;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 50px;
+      margin-top: 30px;
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #ff3385;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Your Fun Night with Darryl!</h1>
+  <p>Get ready for a night full of fun, excitement, and surprises!</p>
+  <button class="back-button" onclick="window.location.href='index.html'">Go Back</button>
+
+</body>
+</html>
