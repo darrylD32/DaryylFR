@@ -150,24 +150,7 @@
         <div id="countdown">5</div>
         <div class="roulette-wheel-container">
             <div class="roulette-wheel" id="roulette-wheel">
-                <!-- Spots repeated to simulate seamless scrolling -->
-                <div class="spot red">0</div>
-                <div class="spot black">1</div>
-                <div class="spot red">2</div>
-                <div class="spot black">3</div>
-                <div class="spot red">4</div>
-                <div class="spot black">5</div>
-                <div class="spot red">6</div>
-                <div class="spot black">7</div>
-                <div class="spot red">8</div>
-                <div class="spot black">9</div>
-                <div class="spot red">10</div>
-                <div class="spot black">11</div>
-                <div class="spot red">12</div>
-                <div class="spot black">13</div>
-                <div class="spot green">14</div>
-
-                <!-- Repeated for seamless effect -->
+                <!-- Initial spots on the wheel -->
                 <div class="spot red">0</div>
                 <div class="spot black">1</div>
                 <div class="spot red">2</div>
@@ -205,7 +188,9 @@
         let countdownValue = 5;
         let countdownTimer;
         const spinDistance = 1600;  // Distance for each spin
+        const wheel = document.getElementById('roulette-wheel');
 
+        // Function to place a bet
         function placeBet(color) {
             if (balance < 10) {
                 alert("You don't have enough coins to bet!");
@@ -218,20 +203,41 @@
             countdown();
         }
 
-        function spinWheel() {
-            const result = Math.floor(Math.random() * 15); // Random number 0-14
-            const resultElement = document.getElementById('result');
+        // Function to start the spin
+        function startSpin() {
+            currentPosition += spinDistance;
+            wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            wheel.style.transform = `translateX(-${currentPosition}px)`;
+
+            // After the spin finishes, append new spots to the wheel
             setTimeout(() => {
-                let winningColor = result === 14 ? 'green' : result % 2 === 0 ? 'red' : 'black';
-                if (currentBet === winningColor) {
-                    let multiplier = winningColor === 'green' ? 14 : 2;
-                    balance += 10 * multiplier;
-                    resultElement.textContent = `You won ${10 * multiplier} coins!`;
-                } else {
-                    resultElement.textContent = `You lost 10 coins.`;
-                }
-                document.getElementById('balance').textContent = balance;
-            }, 5000); // Wait for spin animation
+                wheel.style.transition = 'none';
+                wheel.style.transform = `translateX(-${currentPosition}px)`;
+
+                // Add new spots to keep the wheel infinite
+                const spots = [
+                    { color: 'red', number: Math.floor(Math.random() * 100) },
+                    { color: 'black', number: Math.floor(Math.random() * 100) },
+                    { color: 'green', number: Math.floor(Math.random() * 100) }
+                ];
+                spots.forEach(spot => {
+                    const newSpot = document.createElement('div');
+                    newSpot.classList.add('spot', spot.color);
+                    newSpot.textContent = spot.number;
+                    wheel.appendChild(newSpot);
+                });
+
+                spinWheel();
+            }, 5000); // Wait for the spin animation to finish
+        }
+
+        // Function to keep the wheel spinning indefinitely
+        function spinWheel() {
+            setInterval(() => {
+                currentPosition += spinDistance;
+                wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                wheel.style.transform = `translateX(-${currentPosition}px)`;
+            }, 5000); // Spin every 5 seconds
         }
 
         // Countdown function
@@ -249,26 +255,8 @@
             }, 1000);
         }
 
-        function startSpin() {
-            currentPosition += spinDistance;
-            const wheel = document.getElementById('roulette-wheel');
-            wheel.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-            wheel.style.transform = `translateX(-${currentPosition}px)`;
-
-            // Reset wheel after spin
-            setTimeout(() => {
-                wheel.style.transition = 'none';
-                wheel.style.transform = `translateX(-${currentPosition}px)`;
-                spinWheel();
-            }, 5000);
-        }
-
-        // Reset wheel position
-        const wheel = document.getElementById('roulette-wheel');
-        wheel.addEventListener('animationiteration', () => {
-            wheel.style.animation = 'none';
-            setTimeout(() => wheel.style.animation = '', 10);
-        });
+        // Initial spin when page loads
+        spinWheel();
     </script>
 </body>
 </html>
