@@ -2,7 +2,25 @@ let balance = 100;
 let currentBet = null;
 let wheel = document.getElementById('roulette-wheel');
 let wheelContent = wheel.innerHTML;
-let spinCount = 0; // To track spins for adding more content
+let spinCount = 0;
+let lastResult = 0; // To keep track of where the wheel should start
+
+// Adding a winning indicator line
+const winningIndicator = document.createElement('div');
+winningIndicator.className = 'winning-indicator';
+wheel.parentElement.appendChild(winningIndicator);
+
+// Function to show bet placed
+function showBetPlaced(color) {
+    const betPlacedElement = document.querySelector('.bet-placed');
+    if (betPlacedElement) {
+        wheel.parentElement.removeChild(betPlacedElement);
+    }
+    const newBetPlacedElement = document.createElement('div');
+    newBetPlacedElement.className = 'bet-placed';
+    newBetPlacedElement.textContent = `Bet placed on ${color}`;
+    wheel.parentElement.appendChild(newBetPlacedElement);
+}
 
 function placeBet(color) {
     if (balance < 10) {
@@ -12,70 +30,70 @@ function placeBet(color) {
     currentBet = color;
     balance -= 10;
     document.getElementById('balance').textContent = balance;
-    
-    // Countdown before spinning
-    let countdown = 5;
-    const countdownElement = document.createElement('div');
-    countdownElement.id = 'countdown';
-    countdownElement.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em; color: #ff5722;';
-    document.body.appendChild(countdownElement);
-    
-    const interval = setInterval(() => {
-        countdownElement.textContent = countdown;
-        if (countdown === 0) {
-            clearInterval(interval);
-            document.body.removeChild(countdownElement);
-            spinWheel();
-        }
-        countdown--;
-    }, 1000);
+    showBetPlaced(color);
 }
 
 function spinWheel() {
     spinCount++;
     
     // Add more wheel content to keep it continuous
-    // This logic now checks if the wheel has scrolled less than 50% of its content
     let currentTransform = window.getComputedStyle(wheel).transform;
     let matrix = new DOMMatrix(currentTransform);
-    let translateX = Math.abs(matrix.m41 || 0); // Get the absolute value of translateX
-    let wheelWidth = wheel.scrollWidth; // Total width of the wheel
+    let translateX = Math.abs(matrix.m41 || 0);
+    let wheelWidth = wheel.scrollWidth;
 
     if (translateX > wheelWidth / 2) {
-        wheel.innerHTML += wheelContent; // Append the existing wheel content if we're past halfway
+        wheel.innerHTML += wheelContent;
     }
     
+    // Determine the result
     const result = Math.floor(Math.random() * 15); // Random number 0-14
     const resultElement = document.getElementById('result');
     
-    // Continue from where it left off rather than resetting
-    wheel.style.animation = `none`;
-    wheel.offsetHeight; // Trigger reflow to reset animation
-
-    // Calculate new animation duration based on current position
-    let duration = 5 + (translateX / 60); // Adjust duration based on how far wheel has moved
-
-    wheel.style.animation = `spin ${duration}s cubic-bezier(0.25, 0.1, 0.25, 1) forwards`;
-    wheel.style.animationPlayState = 'running'; // Ensure animation starts
-
-    setTimeout(() => {
-        let winningColor = result === 14 ? 'green' : result % 2 === 0 ? 'red' : 'black';
-        if (currentBet === winningColor) {
-            let multiplier = winningColor === 'green' ? 14 : 2;
-            balance += 10 * multiplier;
-            resultElement.textContent = `You won ${10 * multiplier} coins!`;
-        } else {
-            resultElement.textContent = "You lost 10 coins.";
+    // Start the wheel from where it left off
+    wheel.style.transform = `translateX(-${(lastResult * 60) + translateX}px)`;
+    wheel.style.transition = 'none';
+    
+    // Spin animation
+    wheel.style.transition = `transform ${5 + (spinCount / 2)}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
+    wheel.style.transform = `translateX(-${(result * 60) + translateX}px)`;
+    
+    // Update lastResult for next spin
+    lastResult = result;
+    
+    // Show countdown
+    const countdownElement = document.createElement('div');
+    countdownElement.id = 'countdown';
+    countdownElement.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em; color: #ff5722;';
+    document.body.appendChild(countdownElement);
+    
+    let countdown = 5;
+    const interval = setInterval(() => {
+        countdownElement.textContent = countdown;
+        if (countdown === 0) {
+            clearInterval(interval);
+            document.body.removeChild(countdownElement);
+            
+            // Determine if the bet was correct
+            let winningColor = result === 14 ? 'green' : result % 2 === 0 ? 'red' : 'black';
+            if (currentBet === winningColor) {
+                let multiplier = winningColor === 'green' ? 14 : 2;
+                balance += 10 * multiplier;
+                resultElement.textContent = `You won ${10 * multiplier} coins!`;
+            } else if (currentBet !== null) {
+                resultElement.textContent = "You lost 10 coins.";
+            } else {
+                resultElement.textContent = `Result: ${winningColor}`;
+            }
+            document.getElementById('balance').textContent = balance;
+            currentBet = null; // Reset bet for next round
         }
-        document.getElementById('balance').textContent = balance;
-    }, duration * 1000); // Wait for spin animation, adjust based on duration
+        countdown--;
+    }, 1000);
+    
+    // Schedule next spin regardless of bet
+    setTimeout(spinWheel, 5000);
 }
 
-// Reset wheel position for continuous effect
-wheel.addEventListener('animationend', () => {
-    wheel.style.animation = 'none';
-    setTimeout(() => wheel.style.animation = '', 10); // Reset immediately
-});
-
-// Initial setup for wheel
-wheel.style.animation = 'none'; // Start without animation
+// Start the wheel spinning
+spinWheel();
