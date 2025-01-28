@@ -17,7 +17,7 @@
         .roulette-container {
             position: relative;
             width: 100%;
-            height: 10vh; /* Adjust size */
+            height: 10vh; /* Slightly smaller than your example */
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -28,7 +28,6 @@
             display: flex;
             position: relative;
             will-change: transform;
-            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1); /* Smooth transition */
         }
 
         .spot {
@@ -84,18 +83,17 @@
     </style>
 </head>
 <body>
-
     <div class="roulette-container">
         <div id="countdown">5</div>
         <div class="highlight-bar"></div>
         <div class="roulette-wheel" id="roulette-wheel">
-            <!-- Initial icons -->
+            <!-- Adding numbers/icons to loop seamlessly -->
             <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
             <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
             <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
             <div class="spot black"><img src="path-to-icon4.png" alt="Icon 4"></div>
             <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
-            <!-- Duplicate spots for seamless scrolling -->
+            <!-- Duplicate for seamless effect -->
             <div class="spot red"><img src="path-to-icon1.png" alt="Icon 1"></div>
             <div class="spot black"><img src="path-to-icon2.png" alt="Icon 2"></div>
             <div class="spot red"><img src="path-to-icon3.png" alt="Icon 3"></div>
@@ -111,6 +109,7 @@
         let countdownValue = 5;
         let countdownTimer;
         const spinDistance = 1600;  // The distance the wheel moves per spin
+
         const icons = [
             "path-to-icon1.png",
             "path-to-icon2.png",
