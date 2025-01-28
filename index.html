@@ -27,7 +27,7 @@
         .roulette-wheel {
             display: flex;
             position: relative;
-            animation: spin 4s cubic-bezier(0.33, 1, 0.68, 1) infinite;
+            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1); /* Transition instead of animation */
             will-change: transform;
         }
 
@@ -72,18 +72,20 @@
             z-index: 10;
         }
 
-        @keyframes spin {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-1600px); /* Adjust for smoother spinning */
-            }
+        #countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            font-weight: bold;
+            color: #fff;
         }
     </style>
 </head>
 <body>
     <div class="roulette-container">
+        <div id="countdown">5</div>
         <div class="highlight-bar"></div>
         <div class="roulette-wheel" id="roulette-wheel">
             <!-- Adding numbers/icons to loop seamlessly -->
@@ -100,23 +102,52 @@
             <div class="spot green"><img src="path-to-icon5.png" alt="Green"></div>
         </div>
     </div>
+
     <script>
         const wheel = document.getElementById("roulette-wheel");
+        const countdownElement = document.getElementById("countdown");
+        let currentPosition = 0; // Track the position of the last spin
+        let countdownValue = 5;
+        let countdownTimer;
 
-        function resetWheel() {
-            // Reset position for infinite scroll
-            const animationDuration = 4; // Match CSS duration
+        function startSpin() {
+            // Hide countdown and start spinning
+            countdownElement.style.display = "none";
+            const spinDistance = 1600; // Adjust for smooth looping
+
+            currentPosition += spinDistance; // Move to the next position
+            wheel.style.transition = "transform 4s cubic-bezier(0.33, 1, 0.68, 1)";
+            wheel.style.transform = `translateX(-${currentPosition}px)`;
+            
+            // After spin, reset the transition and prepare for the next spin
             setTimeout(() => {
-                wheel.style.transition = "none"; // Disable transition to reset
-                wheel.style.transform = "translateX(0)";
-                void wheel.offsetWidth; // Force reflow
-                wheel.style.transition = `transform ${animationDuration}s cubic-bezier(0.33, 1, 0.68, 1)`;
-            }, animationDuration * 1000);
+                wheel.style.transition = "none";
+                wheel.style.transform = `translateX(-${currentPosition}px)`;
+                void wheel.offsetWidth; // Trigger reflow to reset the transition
+            }, 4000);
         }
 
-        // Restart wheel animation after each spin
-        wheel.addEventListener("animationiteration", resetWheel);
+        function countdown() {
+            countdownTimer = setInterval(() => {
+                countdownElement.textContent = countdownValue;
+                if (countdownValue <= 0) {
+                    clearInterval(countdownTimer);
+                    startSpin();
+                } else {
+                    countdownValue--;
+                }
+            }, 1000);
+        }
+
+        // Start the countdown on page load
+        countdown();
+
+        // Trigger the next countdown and spin after a delay
+        setInterval(() => {
+            countdownValue = 5;
+            countdownElement.style.display = "block";
+            countdown();
+        }, 5000); // 5 seconds interval for each spin
     </script>
 </body>
 </html>
-
