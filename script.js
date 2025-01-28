@@ -4,6 +4,7 @@ let wheel = document.getElementById('roulette-wheel');
 let wheelContent = wheel.innerHTML;
 let spinCount = 0;
 let lastResult = 0;
+let isSpinning = false;
 
 function placeBet(color) {
     if (balance < 10) {
@@ -17,6 +18,9 @@ function placeBet(color) {
 }
 
 function spinWheel() {
+    if (isSpinning) return; // Prevent multiple spins if one is already in progress
+    isSpinning = true;
+    
     spinCount++;
     
     // Add more wheel content to keep it continuous
@@ -73,10 +77,18 @@ function spinWheel() {
             document.getElementById('balance').textContent = balance;
             document.getElementById('bet-placed').textContent = ''; // Clear bet message
             currentBet = null; // Reset bet for next round
+            isSpinning = false; // Allow next spin
         }
         countdown--;
     }, 1000);
 }
 
 // Start the wheel spinning every 5 seconds
-setInterval(spinWheel, 5000);
+setInterval(() => {
+    if (!isSpinning) {
+        spinWheel();
+    }
+}, 5000);
+
+// Initial spin to start the game
+spinWheel();
