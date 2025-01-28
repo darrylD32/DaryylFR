@@ -208,7 +208,14 @@
 
             // Spin Animation
             const totalDistance = -(rounds * 14 * 100) + targetPosition;
+            wheel.style.transition = `transform 4s cubic-bezier(0.33, 1, 0.68, 1)`;
             wheel.style.transform = `translateX(${totalDistance}px)`;
+
+            // Reset wheel position after spin
+            setTimeout(() => {
+                wheel.style.transition = 'none';
+                wheel.style.transform = `translateX(${targetPosition}px)`;
+            }, 4000);
 
             // Delayed Result
             setTimeout(() => {
@@ -247,4 +254,3 @@
     </script>
 </body>
 </html>
-
