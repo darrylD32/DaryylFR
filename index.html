@@ -3,148 +3,164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bouncing Cats</title>
+  <title>$5 a Night with Darryl</title>
   <style>
-    /* Global styles */
-    body {
+    /* Basic Reset and Global Styles */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ff0000, #ff9900, #33cc33, #0099ff, #9900cc); /* Pride flag */
       height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      font-family: 'Arial', sans-serif;
+      justify-content: center;
+      color: white;
+      text-align: center;
       position: relative;
-      background: linear-gradient(to right, #ff0000, #ff9900, #33cc33, #0099ff, #9900cc); /* Pride flag gradient */
-      background-size: cover;
       overflow: hidden;
     }
 
-    /* Centered shiny pink text box */
-    .text-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 40px;
-      background-color: pink;
-      font-size: 72px;
+    h1 {
+      font-size: 64px;
       font-weight: bold;
-      color: white;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+      margin-bottom: 20px;
       text-transform: uppercase;
-      animation: shiny 1s infinite alternate;
-      text-align: center;
-      z-index: 10;
+      animation: shiny 2s infinite alternate;
+      text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
     }
 
-    /* Shiny effect */
+    /* Shiny animation for the title */
     @keyframes shiny {
       0% {
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
-        text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+        text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
       }
       100% {
-        box-shadow: 0 0 30px rgba(255, 0, 255, 1);
-        text-shadow: 0 0 20px rgba(255, 0, 255, 1);
+        text-shadow: 0 0 25px rgba(255, 0, 255, 1);
       }
     }
 
-    /* Bouncing cat images */
+    /* Button for booking */
+    .book-button {
+      background-color: #ff66cc;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 50px;
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+      transition: background-color 0.3s ease;
+      margin-top: 30px;
+    }
+
+    .book-button:hover {
+      background-color: #ff3385;
+    }
+
+    .cat-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
     .cat {
-      position: absolute;
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       background-size: cover;
       border-radius: 50%;
-      z-index: 5;
+      margin: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    /* Random cat button */
+    .random-cat-button {
+      background-color: #ff99cc;
+      color: white;
+      padding: 12px 25px;
+      font-size: 20px;
+      margin-top: 30px;
+      border: none;
+      cursor: pointer;
+      border-radius: 30px;
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    }
+
+    .random-cat-button:hover {
+      background-color: #ff66cc;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: pink;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      animation: float 6s infinite;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-100px) rotate(180deg);
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+      }
     }
 
   </style>
 </head>
 <body>
 
-  <!-- Shiny pink text box in the center -->
-  <div class="text-box">
-    $5 A NIGHT FOR DARRYL
+  <!-- Title -->
+  <h1>$5 A NIGHT WITH DARRYL</h1>
+
+  <!-- Button to book -->
+  <button class="book-button" onclick="alert('You have successfully booked a night with Darryl! Get ready for a fun night! 🎉')">Book Now</button>
+
+  <!-- Random Cat Generator -->
+  <div class="cat-container" id="catContainer">
+    <!-- Cats will be shown here -->
   </div>
 
-  <!-- Bouncing cats will be added dynamically -->
-  <div id="catContainer"></div>
+  <button class="random-cat-button" onclick="showRandomCat()">Show Me a Random Cat!</button>
+
+  <!-- Floating hearts animation -->
+  <div class="heart" style="top: 10%; left: 10%;"></div>
+  <div class="heart" style="top: 20%; left: 80%; animation-duration: 7s;"></div>
+  <div class="heart" style="top: 70%; left: 30%; animation-duration: 8s;"></div>
+  <div class="heart" style="top: 50%; left: 60%; animation-duration: 9s;"></div>
 
   <script>
-    // Create an array of cat images
+    // Array of cat image URLs
     const catImages = [
       'https://cdn2.thecatapi.com/images/j9q.jpg',
       'https://cdn2.thecatapi.com/images/c5b.jpg',
-      'https://cdn2.thecatapi.com/images/ckz.jpg',
-      'https://cdn2.thecatapi.com/images/c97.jpg',
-      'https://cdn2.thecatapi.com/images/c9o.jpg',
-      'https://cdn2.thecatapi.com/images/a0g.jpg',
       'https://cdn2.thecatapi.com/images/cos.jpg',
-      'https://cdn2.thecatapi.com/images/ajy.jpg',
-      'https://cdn2.thecatapi.com/images/djr.jpg',
-      'https://cdn2.thecatapi.com/images/cg4.jpg'
+      'https://cdn2.thecatapi.com/images/c97.jpg',
+      'https://cdn2.thecatapi.com/images/a0g.jpg'
     ];
 
-    // Create cats and add them to the page
-    function createCat() {
-      const cat = document.createElement('div');
+    // Function to display a random cat
+    function showRandomCat() {
+      const catContainer = document.getElementById('catContainer');
       const randomImage = catImages[Math.floor(Math.random() * catImages.length)];
-      cat.classList.add('cat');
-      cat.style.backgroundImage = `url(${randomImage})`;
+      
+      const catElement = document.createElement('div');
+      catElement.classList.add('cat');
+      catElement.style.backgroundImage = `url(${randomImage})`;
 
-      // Set initial position
-      cat.style.top = `${Math.random() * window.innerHeight}px`;
-      cat.style.left = `${Math.random() * window.innerWidth}px`;
-      document.getElementById('catContainer').appendChild(cat);
-
-      let velocityX = (Math.random() - 0.5) * 2; // Random X velocity
-      let velocityY = (Math.random() - 0.5) * 2; // Random Y velocity
-
-      function moveCat() {
-        const catRect = cat.getBoundingClientRect();
-        const textBoxRect = document.querySelector('.text-box').getBoundingClientRect();
-
-        // Move the cat
-        cat.style.left = `${cat.offsetLeft + velocityX}px`;
-        cat.style.top = `${cat.offsetTop + velocityY}px`;
-
-        // Bounce off the edges of the screen
-        if (catRect.left <= 0 || catRect.right >= window.innerWidth) {
-          velocityX = -velocityX; // Reverse the X velocity when it hits the sides
-        }
-        if (catRect.top <= 0 || catRect.bottom >= window.innerHeight) {
-          velocityY = -velocityY; // Reverse the Y velocity when it hits the top or bottom
-        }
-
-        // Bounce off the text box
-        if (
-          catRect.left < textBoxRect.right && catRect.right > textBoxRect.left &&
-          catRect.top < textBoxRect.bottom && catRect.bottom > textBoxRect.top
-        ) {
-          // Horizontal collision with the text box
-          if (catRect.left < textBoxRect.left || catRect.right > textBoxRect.right) {
-            velocityX = -velocityX;
-          }
-          // Vertical collision with the text box
-          if (catRect.top < textBoxRect.top || catRect.bottom > textBoxRect.bottom) {
-            velocityY = -velocityY;
-          }
-        }
-
-        // Continue moving the cat
-        requestAnimationFrame(moveCat);
-      }
-
-      // Start moving the cat
-      moveCat();
-    }
-
-    // Create multiple cats
-    for (let i = 0; i < 10; i++) {
-      createCat();
+      catContainer.appendChild(catElement);
     }
   </script>
 
