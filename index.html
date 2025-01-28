@@ -105,6 +105,29 @@
             margin-bottom: 20px;
         }
 
+        .bets-list {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bets-list h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .bets-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .bets-list ul li {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
         .footer {
             text-align: center;
             padding: 20px;
@@ -156,6 +179,10 @@
             <button onclick="placeBet('green')">Bet on Green (14x)</button>
         </div>
         <div class="result" id="result"></div>
+        <div class="bets-list">
+            <h3>Player Bets</h3>
+            <ul id="bets-list"></ul>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -166,6 +193,14 @@
     <script>
         let balance = 100;
         let currentBet = null;
+        let playerName = '';
+        let bets = [];
+
+        // Prompt for player name
+        playerName = prompt("Enter your player name:");
+        if (!playerName) {
+            playerName = 'Player';
+        }
 
         // Update balance display
         function updateBalance() {
@@ -183,8 +218,23 @@
             balance -= 10; // Deduct 10 coins for the bet
             updateBalance();
 
+            // Add bet to the list
+            bets.push({ name: playerName, bet: color, amount: 10 });
+            updateBetsList();
+
             // Spin the roulette
             spinRoulette();
+        }
+
+        // Update bets list
+        function updateBetsList() {
+            const betsList = document.getElementById('bets-list');
+            betsList.innerHTML = '';
+            bets.forEach(bet => {
+                const li = document.createElement('li');
+                li.textContent = `${bet.name}: ${bet.amount} coins on ${bet.bet}`;
+                betsList.appendChild(li);
+            });
         }
 
         // Spin the roulette
@@ -213,6 +263,15 @@
             updateBalance();
             currentBet = null; // Reset the bet
         }
+
+        // Auto spin every 15 seconds
+        setInterval(() => {
+            if (bets.length > 0) {
+                spinRoulette();
+                bets = []; // Clear bets after spinning
+                updateBetsList();
+            }
+        }, 15000);
     </script>
 </body>
 </html>
