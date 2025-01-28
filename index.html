@@ -1,42 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$5 A NIGHT FOR DARRYL</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            font-size: 4rem;
-            margin-top: 20px;
-            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
-        }
-        .cat {
-            position: absolute;
-            width: 100px;
-            animation: moveAround 10s linear infinite;
-        }
-        @keyframes moveAround {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(calc(100vw - 100px), 0); }
-            50% { transform: translate(calc(100vw - 100px), calc(100vh - 100px)); }
-            75% { transform: translate(0, calc(100vh - 100px)); }
-            100% { transform: translate(0, 0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouncing Cats</title>
+  <style>
+    /* Global styles */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Bouncing cat image */
+    .cat {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-image: url('https://placekitten.com/200/200'); /* You can change the URL to any cat image */
+      background-size: cover;
+      border-radius: 50%;
+      animation: bounce 3s infinite ease-in-out;
+    }
+
+    /* Animation for bouncing */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-200px);
+      }
+    }
+
+    /* Shiny pink text box */
+    .text-box {
+      position: absolute;
+      bottom: 50px;
+      padding: 20px;
+      background-color: pink;
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+      text-transform: uppercase;
+      animation: shiny 1s infinite alternate;
+    }
+
+    /* Shiny effect */
+    @keyframes shiny {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+        text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+      }
+      100% {
+        box-shadow: 0 0 30px rgba(255, 0, 255, 1);
+        text-shadow: 0 0 20px rgba(255, 0, 255, 1);
+      }
+    }
+
+  </style>
 </head>
 <body>
-    <h1>$5 A NIGHT FOR DARRYL</h1>
-    <img class="cat" src="https://placekitten.com/100/100" alt="Cat">
-    <img class="cat" src="https://placekitten.com/100/100" alt="Cat" style="animation-delay: -2.5s;">
-    <img class="cat" src="https://placekitten.com/100/100" alt="Cat" style="animation-delay: -5s;">
-    <img class="cat" src="https://placekitten.com/100/100" alt="Cat" style="animation-delay: -7.5s;">
+
+  <!-- Shiny pink text box -->
+  <div class="text-box">
+    $5 A NIGHT FOR DARRYL
+  </div>
+
+  <!-- Multiple bouncing cats -->
+  <div class="cat" style="top: 100px; left: 50px;"></div>
+  <div class="cat" style="top: 200px; left: 200px;"></div>
+  <div class="cat" style="top: 300px; left: 400px;"></div>
+  <div class="cat" style="top: 50px; left: 600px;"></div>
+  <div class="cat" style="top: 400px; left: 700px;"></div>
+
 </body>
 </html>
