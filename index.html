@@ -112,19 +112,25 @@
         cat.style.top = `${cat.offsetTop + velocityY}px`;
 
         // Bounce off the edges of the screen
-        if (catRect.left <= 0 || catRect.right >= window.innerWidth) velocityX = -velocityX;
-        if (catRect.top <= 0 || catRect.bottom >= window.innerHeight) velocityY = -velocityY;
+        if (catRect.left <= 0 || catRect.right >= window.innerWidth) {
+          velocityX = -velocityX; // Reverse the X velocity when it hits the sides
+        }
+        if (catRect.top <= 0 || catRect.bottom >= window.innerHeight) {
+          velocityY = -velocityY; // Reverse the Y velocity when it hits the top or bottom
+        }
 
         // Bounce off the text box
         if (
           catRect.left < textBoxRect.right && catRect.right > textBoxRect.left &&
           catRect.top < textBoxRect.bottom && catRect.bottom > textBoxRect.top
         ) {
+          // Horizontal collision with the text box
           if (catRect.left < textBoxRect.left || catRect.right > textBoxRect.right) {
-            velocityX = -velocityX; // Bounce on horizontal sides of the text box
+            velocityX = -velocityX;
           }
+          // Vertical collision with the text box
           if (catRect.top < textBoxRect.top || catRect.bottom > textBoxRect.bottom) {
-            velocityY = -velocityY; // Bounce on vertical sides of the text box
+            velocityY = -velocityY;
           }
         }
 
@@ -141,9 +147,6 @@
       createCat();
     }
   </script>
-
-</body>
-</html>
 
 </body>
 </html>
