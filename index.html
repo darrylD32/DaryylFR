@@ -16,14 +16,44 @@
       background-color: #f0f0f0;
       overflow: hidden;
       font-family: 'Arial', sans-serif;
+      position: relative;
     }
 
-    /* Bouncing cat image */
+    /* Centered shiny pink text box */
+    .text-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 40px;
+      background-color: pink;
+      font-size: 72px;
+      font-weight: bold;
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+      text-transform: uppercase;
+      animation: shiny 1s infinite alternate;
+      text-align: center;
+    }
+
+    /* Shiny effect */
+    @keyframes shiny {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+        text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+      }
+      100% {
+        box-shadow: 0 0 30px rgba(255, 0, 255, 1);
+        text-shadow: 0 0 20px rgba(255, 0, 255, 1);
+      }
+    }
+
+    /* Bouncing cat images */
     .cat {
       position: absolute;
       width: 100px;
       height: 100px;
-      background-image: url('https://placekitten.com/200/200'); /* You can change the URL to any cat image */
       background-size: cover;
       border-radius: 50%;
       animation: bounce 3s infinite ease-in-out;
@@ -39,48 +69,48 @@
       }
     }
 
-    /* Shiny pink text box */
-    .text-box {
-      position: absolute;
-      bottom: 50px;
-      padding: 20px;
-      background-color: pink;
-      font-size: 36px;
-      font-weight: bold;
-      color: white;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
-      text-transform: uppercase;
-      animation: shiny 1s infinite alternate;
+    /* Different cat positions */
+    .cat1 {
+      background-image: url('https://placekitten.com/200/200');
+      top: 20%;
+      left: 10%;
     }
-
-    /* Shiny effect */
-    @keyframes shiny {
-      0% {
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
-        text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
-      }
-      100% {
-        box-shadow: 0 0 30px rgba(255, 0, 255, 1);
-        text-shadow: 0 0 20px rgba(255, 0, 255, 1);
-      }
+    .cat2 {
+      background-image: url('https://placekitten.com/250/250');
+      top: 40%;
+      left: 30%;
+    }
+    .cat3 {
+      background-image: url('https://placekitten.com/220/220');
+      top: 60%;
+      left: 50%;
+    }
+    .cat4 {
+      background-image: url('https://placekitten.com/230/230');
+      top: 30%;
+      left: 70%;
+    }
+    .cat5 {
+      background-image: url('https://placekitten.com/240/240');
+      top: 70%;
+      left: 80%;
     }
 
   </style>
 </head>
 <body>
 
-  <!-- Shiny pink text box -->
+  <!-- Shiny pink text box in the center -->
   <div class="text-box">
     $5 A NIGHT FOR DARRYL
   </div>
 
-  <!-- Multiple bouncing cats -->
-  <div class="cat" style="top: 100px; left: 50px;"></div>
-  <div class="cat" style="top: 200px; left: 200px;"></div>
-  <div class="cat" style="top: 300px; left: 400px;"></div>
-  <div class="cat" style="top: 50px; left: 600px;"></div>
-  <div class="cat" style="top: 400px; left: 700px;"></div>
+  <!-- Bouncing cats -->
+  <div class="cat cat1"></div>
+  <div class="cat cat2"></div>
+  <div class="cat cat3"></div>
+  <div class="cat cat4"></div>
+  <div class="cat cat5"></div>
 
 </body>
 </html>
