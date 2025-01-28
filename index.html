@@ -36,6 +36,7 @@
       text-transform: uppercase;
       animation: shiny 1s infinite alternate;
       text-align: center;
+      z-index: 10;
     }
 
     /* Shiny effect */
@@ -57,40 +58,40 @@
       height: 100px;
       background-size: cover;
       border-radius: 50%;
-      animation: bounce 3s infinite ease-in-out;
+      animation: bounce 2s infinite linear;
+      z-index: 5;
     }
 
-    /* Animation for bouncing */
+    /* Random bounce animation */
     @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(100px, 150px);
       }
       50% {
-        transform: translateY(-200px);
+        transform: translate(200px, -100px);
+      }
+      75% {
+        transform: translate(-50px, 200px);
+      }
+      100% {
+        transform: translate(-200px, -150px);
       }
     }
 
     /* Cat images and positions */
-    .cat1 {
-      top: 10%;
-      left: 5%;
-    }
-    .cat2 {
-      top: 30%;
-      left: 25%;
-    }
-    .cat3 {
-      top: 50%;
-      left: 45%;
-    }
-    .cat4 {
-      top: 20%;
-      left: 65%;
-    }
-    .cat5 {
-      top: 60%;
-      left: 80%;
-    }
+    .cat1 { background-image: url('https://cdn2.thecatapi.com/images/j9q.jpg'); }
+    .cat2 { background-image: url('https://cdn2.thecatapi.com/images/c5b.jpg'); }
+    .cat3 { background-image: url('https://cdn2.thecatapi.com/images/ckz.jpg'); }
+    .cat4 { background-image: url('https://cdn2.thecatapi.com/images/c97.jpg'); }
+    .cat5 { background-image: url('https://cdn2.thecatapi.com/images/c9o.jpg'); }
+    .cat6 { background-image: url('https://cdn2.thecatapi.com/images/a0g.jpg'); }
+    .cat7 { background-image: url('https://cdn2.thecatapi.com/images/cos.jpg'); }
+    .cat8 { background-image: url('https://cdn2.thecatapi.com/images/ajy.jpg'); }
+    .cat9 { background-image: url('https://cdn2.thecatapi.com/images/djr.jpg'); }
+    .cat10 { background-image: url('https://cdn2.thecatapi.com/images/cg4.jpg'); }
 
   </style>
 </head>
@@ -102,11 +103,16 @@
   </div>
 
   <!-- Bouncing cats -->
-  <div class="cat cat1" style="background-image: url('https://cdn2.thecatapi.com/images/j9q.jpg');"></div>
-  <div class="cat cat2" style="background-image: url('https://cdn2.thecatapi.com/images/c5b.jpg');"></div>
-  <div class="cat cat3" style="background-image: url('https://cdn2.thecatapi.com/images/ckz.jpg');"></div>
-  <div class="cat cat4" style="background-image: url('https://cdn2.thecatapi.com/images/c97.jpg');"></div>
-  <div class="cat cat5" style="background-image: url('https://cdn2.thecatapi.com/images/c9o.jpg');"></div>
+  <div class="cat cat1" style="top: 5%; left: 5%; animation-duration: 2s;"></div>
+  <div class="cat cat2" style="top: 10%; left: 30%; animation-duration: 3s;"></div>
+  <div class="cat cat3" style="top: 20%; left: 50%; animation-duration: 4s;"></div>
+  <div class="cat cat4" style="top: 40%; left: 70%; animation-duration: 2.5s;"></div>
+  <div class="cat cat5" style="top: 60%; left: 80%; animation-duration: 3s;"></div>
+  <div class="cat cat6" style="top: 15%; left: 85%; animation-duration: 2.7s;"></div>
+  <div class="cat cat7" style="top: 50%; left: 10%; animation-duration: 3.5s;"></div>
+  <div class="cat cat8" style="top: 75%; left: 25%; animation-duration: 3.2s;"></div>
+  <div class="cat cat9" style="top: 30%; left: 55%; animation-duration: 4s;"></div>
+  <div class="cat cat10" style="top: 80%; left: 40%; animation-duration: 3.5s;"></div>
 
 </body>
 </html>
