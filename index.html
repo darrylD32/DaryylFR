@@ -3,72 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameOdds - Roulette</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Cool Casino - Roulette</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">GameOdds</div>
-        <div class="balance">Balance: <span id="balance">100</span> coins</div>
+    <div class="container">
+        <header>
+            <h1>Cool Casino</h1>
+            <div class="balance">Balance: <span id="balance">100</span> coins</div>
+        </header>
+        
+        <main>
+            <section class="roulette-game">
+                <h2>Roulette</h2>
+                <div class="roulette-wheel-container">
+                    <div class="roulette-wheel" id="roulette-wheel">
+                        <!-- Wheel spots -->
+                        <div class="spot red">0</div>
+                        <div class="spot black">1</div>
+                        <div class="spot red">2</div>
+                        <div class="spot black">3</div>
+                        <div class="spot red">4</div>
+                        <div class="spot black">5</div>
+                        <div class="spot red">6</div>
+                        <div class="spot black">7</div>
+                        <div class="spot red">8</div>
+                        <div class="spot black">9</div>
+                        <div class="spot red">10</div>
+                        <div class="spot black">11</div>
+                        <div class="spot red">12</div>
+                        <div class="spot black">13</div>
+                        <div class="spot green">14</div>
+                        
+                        <!-- Repeated for seamless effect -->
+                        <div class="spot red">0</div>
+                        <div class="spot black">1</div>
+                        <div class="spot red">2</div>
+                        <div class="spot black">3</div>
+                        <div class="spot red">4</div>
+                        <div class="spot black">5</div>
+                        <div class="spot red">6</div>
+                        <div class="spot black">7</div>
+                        <div class="spot red">8</div>
+                        <div class="spot black">9</div>
+                        <div class="spot red">10</div>
+                        <div class="spot black">11</div>
+                        <div class="spot red">12</div>
+                        <div class="spot black">13</div>
+                        <div class="spot green">14</div>
+                    </div>
+                    <div class="winning-indicator"></div>
+                </div>
+                <div class="bet-options">
+                    <button onclick="placeBet('red')">Bet on Red (2x)</button>
+                    <button onclick="placeBet('black')">Bet on Black (2x)</button>
+                    <button onclick="placeBet('green')">Bet on Green (14x)</button>
+                </div>
+                <div class="result" id="result"></div>
+                <button class="spin-button" onclick="spinWheel()">Spin the Wheel</button>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 Cool Casino. All rights reserved.</p>
+        </footer>
     </div>
-
-    <!-- Roulette Section -->
-    <div class="roulette-section">
-        <h2>Roulette</h2>
-        <div class="roulette-wheel-container">
-            <div class="roulette-wheel" id="roulette-wheel">
-                <!-- Spots repeated to simulate seamless scrolling -->
-                <div class="spot red">0</div>
-                <div class="spot black">1</div>
-                <div class="spot red">2</div>
-                <div class="spot black">3</div>
-                <div class="spot red">4</div>
-                <div class="spot black">5</div>
-                <div class="spot red">6</div>
-                <div class="spot black">7</div>
-                <div class="spot red">8</div>
-                <div class="spot black">9</div>
-                <div class="spot red">10</div>
-                <div class="spot black">11</div>
-                <div class="spot red">12</div>
-                <div class="spot black">13</div>
-                <div class="spot green">14</div>
-
-                <!-- Repeated for seamless effect -->
-                <div class="spot red">0</div>
-                <div class="spot black">1</div>
-                <div class="spot red">2</div>
-                <div class="spot black">3</div>
-                <div class="spot red">4</div>
-                <div class="spot black">5</div>
-                <div class="spot red">6</div>
-                <div class="spot black">7</div>
-                <div class="spot red">8</div>
-                <div class="spot black">9</div>
-                <div class="spot red">10</div>
-                <div class="spot black">11</div>
-                <div class="spot red">12</div>
-                <div class="spot black">13</div>
-                <div class="spot green">14</div>
-            </div>
-            <div class="winning-indicator"></div>
-        </div>
-        <div class="bet-options">
-            <button onclick="placeBet('red')">Bet on Red (2x)</button>
-            <button onclick="placeBet('black')">Bet on Black (2x)</button>
-            <button onclick="placeBet('green')">Bet on Green (14x)</button>
-        </div>
-        <div class="result" id="result"></div>
-        <div class="bet-placed" id="bet-placed"></div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
-    </div>
-
     <script src="script.js" defer></script>
 </body>
 </html>
