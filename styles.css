@@ -30,6 +30,7 @@ body {
     text-align: center;
     padding: 50px 20px;
     background-color: #1a1a1a;
+    position: relative;
 }
 
 .roulette-wheel-container {
@@ -48,7 +49,7 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    animation: none; /* We'll animate this dynamically with JavaScript */
+    transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .spot {
@@ -118,11 +119,21 @@ body {
     text-decoration: underline;
 }
 
-@keyframes spin {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.winning-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
+
+.bet-placed {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    color: #ff5722;
 }
