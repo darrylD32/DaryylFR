@@ -1,0 +1,4 @@
+.roulette-wheel {
+    /* Existing styles remain... */
+    animation: none; /* We'll animate this dynamically */
+}
