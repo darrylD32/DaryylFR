@@ -12,7 +12,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #0e0e0e;
             color: #fff;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         .navbar {
@@ -53,7 +53,8 @@
             display: flex;
             position: absolute;
             height: 100%;
-            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1); /* Ease-out */
+            will-change: transform;
+            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1); /* Smooth spin */
         }
 
         .spot {
@@ -124,7 +125,22 @@
         <div class="countdown" id="countdown">Next spin in: 15 seconds</div>
         <div class="roulette-wheel-container">
             <div class="roulette-wheel" id="roulette-wheel">
-                <!-- 15 Numbers (1-14 with green at 14) -->
+                <!-- Numbers are repeated to create a looping effect -->
+                <div class="spot red">1</div>
+                <div class="spot black">2</div>
+                <div class="spot red">3</div>
+                <div class="spot black">4</div>
+                <div class="spot red">5</div>
+                <div class="spot black">6</div>
+                <div class="spot red">7</div>
+                <div class="spot black">8</div>
+                <div class="spot red">9</div>
+                <div class="spot black">10</div>
+                <div class="spot red">11</div>
+                <div class="spot black">12</div>
+                <div class="spot red">13</div>
+                <div class="spot green">14</div>
+                <!-- Repeat sequence for looping -->
                 <div class="spot red">1</div>
                 <div class="spot black">2</div>
                 <div class="spot red">3</div>
