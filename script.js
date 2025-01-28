@@ -2,6 +2,7 @@ let balance = 100;
 let currentBet = null;
 let wheel = document.getElementById('roulette-wheel');
 let wheelContent = wheel.innerHTML;
+let isSpinning = false;
 
 function placeBet(color) {
     if (balance < 10) {
@@ -15,6 +16,9 @@ function placeBet(color) {
 }
 
 function spinWheel() {
+    if (isSpinning) return; // Prevent multiple spins if one is already in progress
+    isSpinning = true;
+    
     // Determine the result
     const result = Math.floor(Math.random() * 15); // Random number 0-14
     const resultElement = document.getElementById('result');
@@ -28,7 +32,7 @@ function spinWheel() {
     
     setTimeout(() => {
         wheel.style.transition = `transform 5s cubic-bezier(0, 0, 0.2, 1)`;
-        wheel.style.transform = `translateX(-${result * 80}px)`; // Adjust based on spot width
+        wheel.style.transform = `translateX(-${result * 60}px)`; // Adjust based on spot width from your original design
         
         // Wait for the animation to finish
         setTimeout(() => {
@@ -36,17 +40,21 @@ function spinWheel() {
             if (currentBet === winningColor) {
                 let multiplier = winningColor === 'green' ? 14 : 2;
                 balance += 10 * multiplier;
-                resultElement.textContent = `You won ${10 * multiplier} coins!`;
+                resultElement.textContent = `You won ${10 * multiplier} coins! (${winningColor})`;
             } else if (currentBet !== null) {
-                resultElement.textContent = "You lost 10 coins.";
+                resultElement.textContent = `You lost 10 coins. (${winningColor} won)`;
             } else {
                 resultElement.textContent = `Result: ${winningColor}`;
             }
             document.getElementById('balance').textContent = balance;
             currentBet = null; // Reset bet for next round
+            isSpinning = false;
         }, 5000);
     }, 10);
 }
+
+// Start the wheel spinning every 10 seconds
+setInterval(spinWheel, 10000);
 
 // Initial balance display
 document.getElementById('balance').textContent = balance;
