@@ -63,61 +63,27 @@
       background-color: #ff3385;
     }
 
-    .cat-container {
+    /* Images of celebrities */
+    .celebrity-images {
+      margin-top: 40px;
       display: flex;
       justify-content: center;
-      margin-top: 30px;
+      gap: 20px;
     }
 
-    .cat {
-      width: 120px;
-      height: 120px;
+    .celebrity {
+      width: 150px;
+      height: 150px;
       background-size: cover;
       border-radius: 50%;
-      margin: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-    }
-
-    /* Random cat button */
-    .random-cat-button {
-      background-color: #ff99cc;
-      color: white;
-      padding: 12px 25px;
-      font-size: 20px;
-      margin-top: 30px;
-      border: none;
       cursor: pointer;
-      border-radius: 30px;
-      box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+      transition: transform 0.3s;
     }
 
-    .random-cat-button:hover {
-      background-color: #ff66cc;
+    .celebrity:hover {
+      transform: scale(1.1);
     }
-
-    /* Floating hearts */
-    .heart {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background-color: pink;
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      animation: float 6s infinite;
-    }
-
-    /* Floating animation */
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-100px) rotate(180deg);
-      }
-      100% {
-        transform: translateY(0) rotate(360deg);
-      }
-    }
-
+    
   </style>
 </head>
 <body>
@@ -126,43 +92,13 @@
   <h1>$5 A NIGHT WITH DARRYL</h1>
 
   <!-- Button to book -->
-  <button class="book-button" onclick="alert('You have successfully booked a night with Darryl! Get ready for a fun night! 🎉')">Book Now</button>
+  <button class="book-button" onclick="location.href='page2.html'">Book Now</button>
 
-  <!-- Random Cat Generator -->
-  <div class="cat-container" id="catContainer">
-    <!-- Cats will be shown here -->
+  <!-- Celebrity Images -->
+  <div class="celebrity-images">
+    <div class="celebrity" style="background-image: url('https://via.placeholder.com/150x150.png?text=Celebrity+1');" onclick="alert('You clicked on a celebrity!')"></div>
+    <div class="celebrity" style="background-image: url('https://via.placeholder.com/150x150.png?text=Celebrity+2');" onclick="alert('You clicked on another celebrity!')"></div>
   </div>
-
-  <button class="random-cat-button" onclick="showRandomCat()">Show Me a Random Cat!</button>
-
-  <!-- Floating hearts animation -->
-  <div class="heart" style="top: 10%; left: 10%;"></div>
-  <div class="heart" style="top: 20%; left: 80%; animation-duration: 7s;"></div>
-  <div class="heart" style="top: 70%; left: 30%; animation-duration: 8s;"></div>
-  <div class="heart" style="top: 50%; left: 60%; animation-duration: 9s;"></div>
-
-  <script>
-    // Array of cat image URLs
-    const catImages = [
-      'https://cdn2.thecatapi.com/images/j9q.jpg',
-      'https://cdn2.thecatapi.com/images/c5b.jpg',
-      'https://cdn2.thecatapi.com/images/cos.jpg',
-      'https://cdn2.thecatapi.com/images/c97.jpg',
-      'https://cdn2.thecatapi.com/images/a0g.jpg'
-    ];
-
-    // Function to display a random cat
-    function showRandomCat() {
-      const catContainer = document.getElementById('catContainer');
-      const randomImage = catImages[Math.floor(Math.random() * catImages.length)];
-      
-      const catElement = document.createElement('div');
-      catElement.classList.add('cat');
-      catElement.style.backgroundImage = `url(${randomImage})`;
-
-      catContainer.appendChild(catElement);
-    }
-  </script>
 
 </body>
 </html>
