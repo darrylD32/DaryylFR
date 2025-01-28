@@ -59,7 +59,6 @@
       background-size: cover;
       border-radius: 50%;
       z-index: 5;
-      animation: none; /* Disable CSS animation */
     }
 
   </style>
@@ -96,13 +95,13 @@
       cat.classList.add('cat');
       cat.style.backgroundImage = `url(${randomImage})`;
 
-      // Set initial position and velocity
+      // Set initial position
       cat.style.top = `${Math.random() * window.innerHeight}px`;
       cat.style.left = `${Math.random() * window.innerWidth}px`;
       document.getElementById('catContainer').appendChild(cat);
 
-      let velocityX = (Math.random() - 0.5) * 4; // Random X velocity
-      let velocityY = (Math.random() - 0.5) * 4; // Random Y velocity
+      let velocityX = (Math.random() - 0.5) * 2; // Random X velocity
+      let velocityY = (Math.random() - 0.5) * 2; // Random Y velocity
 
       function moveCat() {
         const catRect = cat.getBoundingClientRect();
@@ -142,6 +141,9 @@
       createCat();
     }
   </script>
+
+</body>
+</html>
 
 </body>
 </html>
