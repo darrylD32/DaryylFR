@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
     const notification = document.getElementById('notification');
+    const redDisplay = document.getElementById('red-display');
+    const blackDisplay = document.getElementById('black-display');
+    const greenDisplay = document.getElementById('green-display');
 
     let balance = 1000;
     let currentBet = 10;
@@ -86,8 +89,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add bet to the list
             bets.push({ amount: betAmount, color: selectedColor });
 
-            // Notify the player
-            showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
+            // Display bet under the selected color button
+            const displayElement = document.getElementById(`${selectedColor}-display`);
+            displayElement.textContent = `Bet: ${betAmount}`;
         });
     });
 
@@ -116,19 +120,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Notify the player
+            // Display winnings under the selected color button
+            const displayElement = document.getElementById(`${selectedColor}-display`);
             if (totalWinnings > 0) {
-                showNotification(`+${totalWinnings} coins!`, true);
+                displayElement.textContent = `+${totalWinnings}`;
             } else {
-                showNotification(`-${bets.reduce((sum, bet) => sum + bet.amount, 0)} coins`, false);
+                displayElement.textContent = `-${bets.reduce((sum, bet) => sum + bet.amount, 0)}`;
             }
 
-            // Reset for the next round
-            isSpinning = false;
-            bets = [];
-            countdown = 10;
-            countdownElement.textContent = countdown;
-            startCountdown();
+            // Clear winnings display after 3 seconds
+            setTimeout(() => {
+                displayElement.textContent = '';
+                // Reset for the next round
+                isSpinning = false;
+                bets = [];
+                countdown = 10;
+                countdownElement.textContent = countdown;
+                startCountdown();
+            }, 3000);
         }, 3000);
     }
 
