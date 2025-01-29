@@ -1,58 +1,81 @@
-let balance = 1000;
-let recentResults = [];
+document.addEventListener('DOMContentLoaded', function() {
+    const resultsContainer = document.querySelector('.results-container');
+    const spinButton = document.getElementById('spin-button');
+    const betInput = document.getElementById('bet-input');
+    const increaseBet = document.getElementById('increase-bet');
+    const decreaseBet = document.getElementById('decrease-bet');
+    const betOptions = document.querySelectorAll('.bet-option');
+    const historyContainer = document.querySelector('.history-container');
+    const pausePlayButton = document.getElementById('pause-play');
+    const coinCounter = document.querySelector('.coin-counter');
+    const balanceDisplay = document.querySelector('.balance');
 
-const spinButton = document.getElementById('spinBtn');
-const wheel = document.getElementById('wheel');
-const balanceDisplay = document.getElementById('balance');
-const recentResultsDisplay = document.getElementById('recentResults');
-const betAmountInput = document.getElementById('betAmount');
-const betBtns = document.querySelectorAll('.bet-btn');
+    let balance = 1000;
+    let betAmount = 10;
+    let isPaused = false;
 
-function updateBalance() {
-    balanceDisplay.textContent = balance;
-}
-
-function addRecentResult(result) {
-    recentResults.unshift(result);
-    if (recentResults.length > 5) {
-        recentResults.pop(); // Keep the list size to 5
+    // Function to update balance display
+    function updateBalance() {
+        balanceDisplay.textContent = balance;
     }
-    displayRecentResults();
-}
 
-function displayRecentResults() {
-    recentResultsDisplay.innerHTML = recentResults.join(' | ');
-}
-
-function spinWheel() {
-    const spinDuration = Math.random() * 2 + 3; // Spin time between 3-5 seconds
-    const spinAngle = Math.random() * 360; // Random spin angle
-    wheel.style.transition = `transform ${spinDuration}s ease-out`;
-    wheel.style.transform = `rotate(${spinAngle + 3600}deg)`; // Extra spins for effect
-
-    setTimeout(() => {
-        const result = Math.floor(Math.random() * 15); // Numbers 0-14
-        addRecentResult(result);
-        balance += parseInt(betAmountInput.value); // Temporary win logic for demo
-        updateBalance();
-    }, spinDuration * 1000);
-}
-
-spinButton.addEventListener('click', () => {
-    if (balance >= betAmountInput.value) {
-        balance -= betAmountInput.value; // Deduct bet
-        updateBalance();
-        spinWheel();
-    } else {
-        alert('Not enough balance!');
+    // Function to add a new result
+    function addResult(result) {
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'result';
+        resultDiv.textContent = result;
+        resultsContainer.appendChild(resultDiv);
+        resultsContainer.scrollLeft = resultsContainer.scrollWidth;
     }
-});
 
-// For bet options (temporary functionality)
-betBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        alert(`You selected: ${btn.dataset.bet}`);
+    // Function to spin the wheel
+    function spinWheel() {
+        if (balance < betAmount) {
+            alert('Insufficient balance!');
+            return;
+        }
+
+        balance -= betAmount;
+        updateBalance();
+
+        const result = Math.floor(Math.random() * 15);
+        addResult(result);
+
+        // Simulate winning or losing
+        if (result === 7) { // Example winning condition
+            const winnings = betAmount * 14;
+            balance += winnings;
+            updateBalance();
+            coinCounter.textContent = parseInt(coinCounter.textContent) + winnings;
+            alert(`You won ${winnings}!`);
+        } else {
+            alert('You lost!');
+        }
+    }
+
+    // Event listeners
+    spinButton.addEventListener('click', spinWheel);
+
+    increaseBet.addEventListener('click', () => {
+        betAmount += 10;
+        betInput.value = betAmount;
+    });
+
+    decreaseBet.addEventListener('click', () => {
+        if (betAmount > 10) {
+            betAmount -= 10;
+            betInput.value = betAmount;
+        }
+    });
+
+    betOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            alert(`You placed a ${option.dataset.bet} bet!`);
+        });
+    });
+
+    pausePlayButton.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pausePlayButton.textContent = isPaused ? 'Play' : 'Pause';
     });
 });
-
-updateBalance(); // Initial balance update
