@@ -1,10 +1,15 @@
-/* Global Styles */
+/* General styling */
 body {
+    background-color: #1e1e1e;
     font-family: Arial, sans-serif;
-    background-color: #121212;
     color: white;
     margin: 0;
     padding: 0;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -13,161 +18,144 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #1f1f1f;
-    border-bottom: 1px solid #333;
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-.logo img {
-    width: 50px;
+header .logo h1 {
+    color: #00d4ff;
 }
 
-nav ul {
+header nav ul {
+    list-style: none;
     display: flex;
     gap: 20px;
-    list-style: none;
-    padding: 0;
 }
 
-nav a {
+header nav a {
     color: white;
     text-decoration: none;
+    position: relative;
+}
+
+header nav a:hover {
+    color: #00d4ff;
     font-weight: bold;
-    transition: color 0.3s;
 }
 
-nav a:hover {
-    color: #1f8f89;
-}
-
-.user-info {
+header .user {
     display: flex;
-    align-items: center;
     gap: 10px;
 }
 
-.user-info .balance {
-    font-size: 1.1em;
-}
-
-.add-funds {
-    padding: 5px 10px;
-    background-color: #1f8f89;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.profile-pic img {
+header .user img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
 
-/* Main Content */
+header .user-info {
+    color: white;
+}
+
+header .balance {
+    color: #00d4ff;
+    font-size: 18px;
+}
+
 main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
     padding: 20px;
 }
 
-.recent-results, .jackpot, .roulette, .bet-history {
-    margin-bottom: 30px;
-}
-
-.recent-results h2, .jackpot h2, .bet-history h2 {
-    color: #f1f1f1;
-    margin-bottom: 10px;
-}
-
-.results {
-    display: flex;
-    gap: 10px;
-}
-
-.results .result {
-    padding: 5px;
-    border-radius: 5px;
-    width: 30px;
-    text-align: center;
-}
-
-.jackpot .jackpot-amount {
-    font-size: 2em;
-    color: #1f8f89;
-}
-
-/* Roulette Wheel */
 .roulette-wheel {
-    text-align: center;
-}
-
-#wheel {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
+    background-color: #2e2e2e;
     border-radius: 50%;
-    background-color: #333;
+    border: 10px solid #444;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-#spin-wheel {
-    padding: 10px 20px;
-    background-color: #1f8f89;
-    color: white;
+.spin-btn {
+    background-color: #00d4ff;
     border: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.spin-btn:hover {
+    background-color: #00a0c9;
 }
 
 .betting-area {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
+    margin-top: 30px;
+    text-align: center;
 }
 
-.bet-options {
-    display: flex;
-    gap: 15px;
-}
-
-.bet-option {
-    padding: 10px 15px;
+.betting-area .bet-btn {
     background-color: #444;
-    color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.bet-option:hover {
-    background-color: #1f8f89;
-}
-
-.place-bet {
+    color: white;
     padding: 10px 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    margin: 10px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.place-bet:hover {
-    background-color: #1f8f89;
+.betting-area .bet-btn:hover {
+    background-color: #00d4ff;
 }
 
-/* Chat Support */
-.chat-support {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
+.recent-results {
+    margin-top: 30px;
+    width: 80%;
+    max-width: 600px;
 }
 
-.chat-button {
+.recent-results h2 {
+    text-align: center;
+    color: white;
+}
+
+.recent-results .results {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+footer {
+    padding: 20px;
+    background-color: #333;
+    text-align: center;
+}
+
+footer .support-btn {
+    background-color: #00d4ff;
+    border: none;
     padding: 10px 20px;
-    background-color: #1f8f89;
     color: white;
-    border: none;
-    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+footer .support-btn:hover {
+    background-color: #00a0c9;
 }
