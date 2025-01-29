@@ -184,18 +184,3 @@ header h1 {
     max-height: 200px;
     overflow-y: auto;
 }
-
-/* Notification System */
-#notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 18px;
-    display: none;
-    z-index: 1000;
-}
