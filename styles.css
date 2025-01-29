@@ -26,10 +26,12 @@ h1 {
     overflow: hidden;
     white-space: nowrap;
     margin: 20px 0;
+    position: relative;
 }
 
 .roulette {
     display: inline-block;
+    white-space: nowrap;
 }
 
 .number {
@@ -38,10 +40,19 @@ h1 {
     height: 60px;
     line-height: 60px;
     text-align: center;
-    margin: 0 5px;
-    border-radius: 50%;
+    margin: 0;
     color: white;
     font-size: 18px;
+}
+
+.indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background-color: yellow;
+    transform: translateX(-50%);
 }
 
 .bet-options {
@@ -67,6 +78,10 @@ button {
 
 #betGreen {
     background-color: green;
+}
+
+.bet-amounts {
+    margin-top: 10px;
 }
 
 .bet-container {
