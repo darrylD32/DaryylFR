@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
+    const notification = document.getElementById('notification');
 
     let balance = 1000;
     let currentBet = 10;
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let countdown = 10;
     let countdownInterval;
     let isSpinning = false;
+    let bets = [];
 
     // Generate roulette slots (7 red, 7 black, 1 green)
     const slots = [];
@@ -39,6 +41,16 @@ document.addEventListener('DOMContentLoaded', function () {
         balanceElement.textContent = balance;
     }
 
+    // Show notification
+    function showNotification(message, isWin) {
+        notification.textContent = message;
+        notification.style.backgroundColor = isWin ? '#4dff4d' : '#ff4d4d';
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 2000);
+    }
+
     // Start the countdown timer
     function startCountdown() {
         countdownInterval = setInterval(() => {
@@ -55,18 +67,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle bet placement
     placeBetButton.addEventListener('click', function () {
         if (isSpinning) {
-            alert('Wait for the current spin to finish!');
+            showNotification('Wait for the current spin to finish!', false);
             return;
         }
 
         const betAmount = parseInt(betInput.value);
         if (betAmount < 1 || betAmount > balance) {
-            alert('Invalid bet amount!');
+            showNotification('Invalid bet amount!', false);
             return;
         }
 
         if (!selectedColor) {
-            alert('Please select a color to bet on!');
+            showNotification('Please select a color to bet on!', false);
             return;
         }
 
@@ -74,10 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
         balance -= betAmount;
         updateBalance();
 
-        // Add bet to results
-        const resultItem = document.createElement('p');
-        resultItem.textContent = `Bet: ${betAmount} on ${selectedColor}`;
-        resultsList.appendChild(resultItem);
+        // Add bet to the list
+        bets.push({ amount: betAmount, color: selectedColor });
+
+        // Notify the player
+        showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
     });
 
     // Handle color selection
@@ -104,28 +117,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Check if the player won
         setTimeout(() => {
-            if (selectedColor === winningColor) {
-                let multiplier = 1;
-                if (winningColor === 'green') {
-                    multiplier = 14; // Green pays 14x
-                } else {
-                    multiplier = 2; // Red/Black pays 2x
+            let totalWinnings = 0;
+            bets.forEach(bet => {
+                if (bet.color === winningColor) {
+                    let multiplier = bet.color === 'green' ? 14 : 2;
+                    const winnings = bet.amount * multiplier;
+                    totalWinnings += winnings;
+                    balance += winnings + bet.amount; // Return bet + winnings
                 }
-                const winnings = currentBet * multiplier;
-                balance += winnings;
-                updateBalance();
-                alert(`You won ${winnings} coins!`);
-            } else {
-                alert('You lost!');
-            }
+            });
 
-            // Add result to the list
-            const resultItem = document.createElement('p');
-            resultItem.textContent = `Result: ${winningColor}`;
-            resultsList.appendChild(resultItem);
+            // Notify the player
+            if (totalWinnings > 0) {
+                showNotification(`+${totalWinnings} coins!`, true);
+            } else {
+                showNotification(`-${bets.reduce((sum, bet) => sum + bet.amount, 0)} coins`, false);
+            }
 
             // Reset for the next round
             isSpinning = false;
+            bets = [];
             countdown = 10;
             countdownElement.textContent = countdown;
             startCountdown();
