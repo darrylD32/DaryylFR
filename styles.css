@@ -1,161 +1,209 @@
-/* General styling */
+/* General Styles */
 body {
-    background-color: #1e1e1e;
-    font-family: Arial, sans-serif;
-    color: white;
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a;
+    color: #fff;
     margin: 0;
     padding: 0;
-}
-
-.container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
     background-color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-header .logo h1 {
-    color: #00d4ff;
+.logo img {
+    width: 100px;
+    animation: spin 2s linear infinite;
 }
 
-header nav ul {
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
 }
 
-header nav a {
-    color: white;
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
     text-decoration: none;
-    position: relative;
-}
-
-header nav a:hover {
-    color: #00d4ff;
-    font-weight: bold;
-}
-
-header .user {
-    display: flex;
-    gap: 10px;
-}
-
-header .user img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-header .user-info {
-    color: white;
-}
-
-header .balance {
-    color: #00d4ff;
     font-size: 18px;
 }
 
-main {
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.user-account {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    flex-grow: 1;
+}
+
+.balance {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.profile-pic img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+main {
     padding: 20px;
 }
 
-.roulette-wheel {
+.recent-results, .jackpot-display, .roulette-wheel, .betting-area {
+    margin-bottom: 40px;
+}
+
+.recent-results .results-container {
+    display: flex;
+    overflow-x: auto;
+}
+
+.recent-results .result {
+    background-color: #444;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.jackpot-display .coin-counter {
+    font-size: 36px;
+    text-align: center;
+}
+
+.roulette-wheel .wheel {
     width: 300px;
     height: 300px;
-    background-color: #2e2e2e;
+    background-color: #555;
     border-radius: 50%;
-    border: 10px solid #444;
-    margin-bottom: 20px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.roulette-wheel .wheel::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#spin-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#spin-button:hover {
+    background-color: #0056b3;
+}
+
+.betting-area .bet-amount {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
 }
 
-.spin-btn {
-    background-color: #00d4ff;
+.betting-area .bet-amount input {
+    width: 100px;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+}
+
+.betting-area .bet-amount button {
+    padding: 10px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    color: white;
-    font-size: 16px;
-    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin: 0 10px;
 }
 
-.spin-btn:hover {
-    background-color: #00a0c9;
+.betting-area .bet-amount button:hover {
+    background-color: #0056b3;
 }
 
-.betting-area {
-    margin-top: 30px;
-    text-align: center;
+.betting-area .bet-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.betting-area .bet-btn {
+.betting-area .bet-option {
+    padding: 10px 20px;
+    margin: 5px;
     background-color: #444;
+    color: #fff;
     border: none;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-.betting-area .bet-btn:hover {
-    background-color: #00d4ff;
+.betting-area .bet-option:hover {
+    background-color: #555;
 }
 
-.recent-results {
-    margin-top: 30px;
-    width: 80%;
-    max-width: 600px;
+.betting-area .bet-history {
+    margin-top: 20px;
 }
 
-.recent-results h2 {
-    text-align: center;
-    color: white;
-}
-
-.recent-results .results {
+.betting-area .history-container {
+    max-height: 200px;
+    overflow-y: auto;
     background-color: #333;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 10px;
 }
 
 footer {
+    text-align: center;
     padding: 20px;
     background-color: #333;
-    text-align: center;
 }
 
-footer .support-btn {
-    background-color: #00d4ff;
-    border: none;
+#support-button {
     padding: 10px 20px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-footer .support-btn:hover {
-    background-color: #00a0c9;
+#support-button:hover {
+    background-color: #0056b3;
 }
