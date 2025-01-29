@@ -3,72 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Casino - Roulette</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>GameOdds - Roulette</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #1a1a1a;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff5722;
+        }
+
+        .navbar .balance {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .roulette-section {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #1a1a1a;
+        }
+
+        .roulette-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .roulette-wheel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 60px;
+        }
+
+        .roulette-wheel .spots {
+            display: flex;
+            position: absolute;
+            left: 0;
+            transition: left 0.1s linear;
+        }
+
+        .roulette-wheel .spot {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex-shrink: 0;
+        }
+
+        .roulette-wheel .spot.red {
+            background-color: #ff4444;
+        }
+
+        .roulette-wheel .spot.black {
+            background-color: #333;
+        }
+
+        .roulette-wheel .spot.green {
+            background-color: #4caf50;
+        }
+
+        .roulette-wheel .spot.selected {
+            border: 3px solid #ff5722;
+        }
+
+        .roulette-wheel .line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: #ff5722;
+            z-index: 1;
+        }
+
+        .bet-options {
+            margin-bottom: 20px;
+        }
+
+        .bet-options button {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .bet-options button:hover {
+            background-color: #e64a19;
+        }
+
+        .result {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .bets-list {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bets-list h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .bets-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .bets-list ul li {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .countdown {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ccc;
+        }
+
+        .footer a {
+            color: #ff5722;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Cool Casino</h1>
-            <div class="balance">Balance: <span id="balance">100</span> coins</div>
-        </header>
-        
-        <main>
-            <section class="roulette-game">
-                <h2>Roulette</h2>
-                <div class="roulette-wheel-container">
-                    <div class="roulette-wheel" id="roulette-wheel">
-                        <!-- Wheel spots -->
-                        <div class="spot red">0</div>
-                        <div class="spot black">1</div>
-                        <div class="spot red">2</div>
-                        <div class="spot black">3</div>
-                        <div class="spot red">4</div>
-                        <div class="spot black">5</div>
-                        <div class="spot red">6</div>
-                        <div class="spot black">7</div>
-                        <div class="spot red">8</div>
-                        <div class="spot black">9</div>
-                        <div class="spot red">10</div>
-                        <div class="spot black">11</div>
-                        <div class="spot red">12</div>
-                        <div class="spot black">13</div>
-                        <div class="spot green">14</div>
-                        
-                        <!-- Repeated for seamless effect -->
-                        <div class="spot red">0</div>
-                        <div class="spot black">1</div>
-                        <div class="spot red">2</div>
-                        <div class="spot black">3</div>
-                        <div class="spot red">4</div>
-                        <div class="spot black">5</div>
-                        <div class="spot red">6</div>
-                        <div class="spot black">7</div>
-                        <div class="spot red">8</div>
-                        <div class="spot black">9</div>
-                        <div class="spot red">10</div>
-                        <div class="spot black">11</div>
-                        <div class="spot red">12</div>
-                        <div class="spot black">13</div>
-                        <div class="spot green">14</div>
-                    </div>
-                    <div class="winning-indicator"></div>
-                </div>
-                <div class="bet-options">
-                    <button onclick="placeBet('red')">Bet on Red (2x)</button>
-                    <button onclick="placeBet('black')">Bet on Black (2x)</button>
-                    <button onclick="placeBet('green')">Bet on Green (14x)</button>
-                </div>
-                <div class="result" id="result"></div>
-                <button class="spin-button" onclick="spinWheel()">Spin the Wheel</button>
-            </section>
-        </main>
-        
-        <footer>
-            <p>&copy; 2023 Cool Casino. All rights reserved.</p>
-        </footer>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">GameOdds</div>
+        <div class="balance">Balance: <span id="balance">100</span> coins</div>
     </div>
-    <script src="script.js" defer></script>
+
+    <!-- Roulette Section -->
+    <div class="roulette-section">
+        <h2>Roulette</h2>
+        <div class="countdown" id="countdown">Next spin in: 15 seconds</div>
+        <div class="roulette-wheel" id="roulette-wheel">
+            <div class="line"></div>
+            <div class="spots" id="spots">
+                <!-- Initial spots will be generated dynamically -->
+            </div>
+        </div>
+        <div class="bet-options">
+            <button onclick="placeBet('red')">Bet on Red (2x)</button>
+            <button onclick="placeBet('black')">Bet on Black (2x)</button>
+            <button onclick="placeBet('green')">Bet on Green (14x)</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="bets-list">
+            <h3>Player Bets</h3>
+            <ul id="bets-list"></ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 GameOdds. All rights reserved. | <a href="#terms">Terms of Service</a> | <a href="#privacy">Privacy Policy</a></p>
+    </div>
+
+    <script>
+        let balance = 100;
+        let currentBet = null;
+        let playerName = '';
+        let bets = [];
+        let countdown = 15;
+        let countdownInterval;
+        let isSpinning = false;
+
+        // Prompt for player name
+        playerName = prompt("Enter your player name:");
+        if (!playerName) {
+            playerName = 'Player';
+        }
+
+        // Update balance display
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance;
+        }
+
+        // Generate initial spots
+        function generateSpots() {
+            const spotsContainer = document.getElementById('spots');
+            for (let i = 1; i <= 15; i++) {
+                const spot = document.createElement('div');
+                spot.className = `spot ${i === 15 ? 'green' : i % 2 === 0 ? 'black' : 'red'}`;
+                spot.textContent = i;
+                spot.setAttribute('data-value', i);
+                spotsContainer.appendChild(spot);
+            }
+        }
+
+        // Place a bet
+        function placeBet(color) {
+            if (isSpinning) {
+                alert("Wait for the current spin to finish!");
+                return;
+            }
+
+            if (balance < 10) {
+                alert("You don't have enough coins to bet!");
+                return;
+            }
+
+            currentBet = color;
+            balance -= 10; // Deduct 10 coins for the bet
+            updateBalance();
+
+            // Add bet to the list
+            bets.push({ name: playerName, bet: color, amount: 10 });
+            updateBetsList();
+        }
+
+        // Update bets list
+        function updateBetsList() {
+            const betsList = document.getElementById('bets-list');
+            betsList.innerHTML = '';
+            bets.forEach(bet => {
+                const li = document.createElement('li');
+                li.textContent = `${bet.name}: ${bet.amount} coins on ${bet.bet}`;
+                betsList.appendChild(li);
+            });
+        }
+
+        // Spin the roulette
+        function spinRoulette() {
+            if (isSpinning) return;
+            isSpinning = true;
+
+            const spots = document.getElementById('spots');
+            const resultElement = document.getElementById('result');
+
+            // Randomly select a winning spot (1-15)
+            const winningSpot = Math.floor(Math.random() * 15) + 1;
+            const winningColor = document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('red') ? 'red' :
+                                document.querySelector(`.spot[data-value="${winningSpot}"]`).classList.contains('black') ? 'black' : 'green';
+
+            // Calculate the distance to move the spots
+            const spotWidth = 60; // Width of each spot including gap
+            const moveDistance = (winningSpot + 30) * spotWidth; // Spin multiple times
+
+            // Animate the wheel
+            let start = null;
+            const duration = 5000; // 5 seconds
+
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const ease = Math.min(progress / duration, 1);
+                const easedProgress = ease < 0.5 ? 2 * ease * ease : -1 + (4 - 2 * ease) * ease;
+
+                spots.style.left = `-${easedProgress * moveDistance}px`;
+
+                // Dynamically generate new spots as the wheel spins
+                if (easedProgress * moveDistance > spotWidth * 15) {
+                    const newSpot = document.createElement('div');
+                    newSpot.className = `spot ${Math.floor(Math.random() * 15) + 1 === 15 ? 'green' : Math.floor(Math.random() * 15) + 1 % 2 === 0 ? 'black' : 'red'}`;
+                    newSpot.textContent = Math.floor(Math.random() * 15) + 1;
+                    newSpot.setAttribute('data-value', Math.floor(Math.random() * 15) + 1);
+                    spots.appendChild(newSpot);
+                }
+
+                if (progress < duration) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // After animation, determine the result
+                    bets.forEach(bet => {
+                        if (bet.bet === winningColor) {
+                            const multiplier = winningColor === 'green' ? 14 : 2;
+                            balance += bet.amount * multiplier; // Add winnings to balance
+                            resultElement.textContent = `${bet.name} won ${bet.amount * multiplier} coins!`;
+                        } else {
+                            resultElement.textContent = `${bet.name} lost ${bet.amount} coins.`;
+                        }
+                    });
+
+                    updateBalance();
+                    bets = []; // Clear bets after spinning
+                    updateBetsList();
+                    isSpinning = false;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start the countdown
+        function startCountdown() {
+            countdownInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = `Next spin in: ${countdown} seconds`;
+
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    spinRoulette();
+                    countdown = 15;
+                    startCountdown();
+                }
+            }, 1000);
+        }
+
+        // Initialize the game
+        generateSpots();
+        startCountdown();
+    </script>
 </body>
 </html>
