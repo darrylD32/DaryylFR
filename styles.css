@@ -30,7 +30,6 @@ h1 {
 
 .roulette {
     display: inline-block;
-    animation: scroll 10s linear infinite;
 }
 
 .number {
@@ -43,11 +42,6 @@ h1 {
     border-radius: 50%;
     color: white;
     font-size: 18px;
-}
-
-@keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
 }
 
 .bet-options {
