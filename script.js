@@ -1,6 +1,7 @@
 let balance = 1000;
 let currentBet = 0;
 let betOn = null;
+let isSpinning = false;
 
 document.getElementById('placeBet').addEventListener('click', function() {
     const betAmount = parseInt(document.getElementById('betAmount').value);
@@ -31,6 +32,9 @@ document.getElementById('betGreen').addEventListener('click', function() {
 });
 
 function spinRoulette() {
+    if (isSpinning) return;
+    isSpinning = true;
+
     const roulette = document.getElementById('roulette');
     const resultElement = document.getElementById('result');
     
@@ -38,6 +42,12 @@ function spinRoulette() {
     
     const randomSegment = Math.floor(Math.random() * 15); // 0-14
     const resultColor = randomSegment === 0 ? 'Green' : (randomSegment % 2 === 1 ? 'Red' : 'Black');
+    
+    const segmentWidth = 70; // Width of each segment including margin
+    const targetPosition = -(randomSegment * segmentWidth);
+
+    roulette.style.transition = 'transform 3s ease-out';
+    roulette.style.transform = `translateX(${targetPosition}px)`;
     
     setTimeout(() => {
         let multiplier;
@@ -58,5 +68,13 @@ function spinRoulette() {
         document.getElementById('balance').textContent = `Balance: ${balance} coins`;
         currentBet = 0;
         betOn = null;
+
+        // Reset roulette position and continue spinning
+        roulette.style.transition = 'none';
+        roulette.style.transform = 'translateX(0)';
+        setTimeout(() => {
+            roulette.style.transition = 'transform 3s ease-out';
+            isSpinning = false;
+        }, 50);
     }, 3000);
 }
