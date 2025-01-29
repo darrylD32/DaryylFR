@@ -23,6 +23,7 @@ header {
 
 header h1 {
     margin: 0;
+    font-size: 24px;
 }
 
 nav ul {
@@ -48,59 +49,85 @@ main {
     padding: 20px;
 }
 
-.game-info, .bits-section, .controls, .results {
-    margin-bottom: 40px;
+/* Timer Section */
+.timer {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.game-info h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.timer h2 {
+    font-size: 28px;
+    color: #ffcc00;
 }
 
-.rotation p {
-    margin: 5px 0;
-}
-
-.bits-section {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.bits {
+/* Rotation Section */
+.rotation {
     background-color: #444;
     padding: 10px;
-    margin: 5px;
     border-radius: 5px;
-    width: calc(33.333% - 10px);
+    margin-bottom: 20px;
+}
+
+.rotation-item p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Bits Section */
+.bits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.bits-item {
+    background-color: #555;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 20px);
     box-sizing: border-box;
 }
 
-.bits h3 {
+.bits-item h3 {
     margin: 0;
     font-size: 18px;
+    color: #ffcc00;
 }
 
-.bits p {
+.bits-item p {
     margin: 5px 0;
+    font-size: 14px;
 }
 
+/* Controls Section */
 .controls {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .controls button {
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 16px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    flex: 1;
 }
 
 .controls button:hover {
     background-color: #0056b3;
+}
+
+/* Results Section */
+.results {
+    background-color: #444;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .results h2 {
@@ -110,4 +137,5 @@ main {
 
 .results-list p {
     margin: 5px 0;
+    font-size: 16px;
 }
