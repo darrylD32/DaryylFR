@@ -9,11 +9,33 @@
 <body>
     <div class="container">
         <h1>CSGO-ODDS</h1>
-        <p>Guess the outcome and see if you win!</p>
-        <div class="game">
-            <button id="playButton">Play</button>
-            <p id="result"></p>
+        <p>Spin the roulette and have fun without any real money involved!</p>
+        <div class="roulette-container">
+            <div id="roulette" class="roulette">
+                <div class="number" style="--i:0; background-color: green;">0</div>
+                <div class="number" style="--i:1; background-color: red;">1</div>
+                <div class="number" style="--i:2; background-color: black;">2</div>
+                <div class="number" style="--i:3; background-color: red;">3</div>
+                <div class="number" style="--i:4; background-color: black;">4</div>
+                <div class="number" style="--i:5; background-color: red;">5</div>
+                <div class="number" style="--i:6; background-color: black;">6</div>
+                <div class="number" style="--i:7; background-color: red;">7</div>
+                <div class="number" style="--i:8; background-color: black;">8</div>
+                <div class="number" style="--i:9; background-color: red;">9</div>
+                <div class="number" style="--i:10; background-color: black;">10</div>
+                <div class="number" style="--i:11; background-color: red;">11</div>
+                <div class="number" style="--i:12; background-color: black;">12</div>
+                <div class="number" style="--i:13; background-color: red;">13</div>
+                <div class="number" style="--i:14; background-color: black;">14</div>
+            </div>
+            <div id="spinButton" class="spin-button">Spin</div>
         </div>
+        <div class="bet-container">
+            <input type="number" id="betAmount" placeholder="Enter bet amount" min="1">
+            <button id="placeBet">Place Bet</button>
+        </div>
+        <p id="result"></p>
+        <p id="balance">Balance: 1000 coins</p>
     </div>
     <script src="script.js"></script>
 </body>
