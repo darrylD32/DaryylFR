@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
-    const notification = document.getElementById('notification');
     const redDisplay = document.getElementById('red-display');
     const blackDisplay = document.getElementById('black-display');
     const greenDisplay = document.getElementById('green-display');
@@ -43,16 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
         balanceElement.textContent = balance;
     }
 
-    // Show notification
-    function showNotification(message, isWin) {
-        notification.textContent = message;
-        notification.style.backgroundColor = isWin ? '#4dff4d' : '#ff4d4d';
-        notification.style.display = 'block';
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 2000);
-    }
-
     // Start the countdown timer
     function startCountdown() {
         countdownInterval = setInterval(() => {
@@ -70,14 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
     betOptions.forEach(option => {
         option.addEventListener('click', function () {
             if (isSpinning) {
-                showNotification('Wait for the current spin to finish!', false);
-                return;
+                return; // Do not accept bets during spin
             }
 
             const betAmount = parseInt(betInput.value);
             if (betAmount < 1 || betAmount > balance) {
-                showNotification('Invalid bet amount!', false);
-                return;
+                return; // Invalid bet amount
             }
 
             selectedColor = this.dataset.color;
