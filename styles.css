@@ -30,6 +30,17 @@ header h1 {
     font-size: 18px;
 }
 
+/* Timer Display */
+.timer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.timer h2 {
+    font-size: 28px;
+    color: #ffcc00;
+}
+
 /* Roulette Wheel */
 .roulette-wheel {
     position: relative;
@@ -48,7 +59,6 @@ header h1 {
 
 .slots {
     display: flex;
-    animation: spin 5s linear infinite;
 }
 
 .slot {
@@ -82,11 +92,6 @@ header h1 {
     height: 100%;
     background-color: #fff;
     transform: translateX(-50%);
-}
-
-@keyframes spin {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
 }
 
 /* Betting Area */
