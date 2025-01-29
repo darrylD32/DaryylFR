@@ -3,74 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette Game</title>
+    <title>CS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="logo.png" alt="Roulette Logo">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#"><i class="fas fa-trophy"></i> ESPORTS</a></li>
-                <li><a href="#"><i class="fas fa-coins"></i> REWARDS</a></li>
-                <li><a href="#"><i class="fas fa-user"></i> PROFILE</a></li>
-            </ul>
-        </nav>
-        <div class="user-account">
-            <div class="balance">1000</div>
-            <div class="profile-pic">
-                <img src="profile.png" alt="Profile Picture">
-            </div>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>CSGO Roll</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Roll</a></li>
+                    <li><a href="#">Leaderboard</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-        <section class="recent-results">
-            <h2>Recent Results</h2>
-            <div class="results-container">
-                <div class="result">7</div>
-                <div class="result">12</div>
-                <div class="result">3</div>
-                <!-- More results will be added dynamically -->
-            </div>
-            <button id="pause-play">Pause</button>
-        </section>
+        <main>
+            <section class="game-info">
+                <h2>ROLLING IN 3.16</h2>
+                <div class="rotation">
+                    <p>1:0.04</p>
+                    <p>Win 2x</p>
+                    <p>Read list</p>
+                </div>
+            </section>
 
-        <section class="jackpot-display">
-            <h2>Jackpot</h2>
-            <div class="coin-counter">0</div>
-        </section>
+            <section class="bits-section">
+                <div class="bits">
+                    <h3>2 bits</h3>
+                    <p>push80</p>
+                    <p>y4807</p>
+                </div>
+                <div class="bits">
+                    <h3>4.00</h3>
+                    <p>0.05</p>
+                </div>
+                <div class="bits">
+                    <h3>5 bits</h3>
+                    <p>Win 14x</p>
+                    <p>Read list</p>
+                </div>
+                <!-- Add more bits sections as needed -->
+            </section>
 
-        <section class="roulette-wheel">
-            <div class="wheel"></div>
-            <button id="spin-button">Spin</button>
-        </section>
+            <section class="controls">
+                <button>CLÉAR</button>
+                <button>LGF</button>
+                <button>+30</button>
+                <button>+300</button>
+                <button>+500</button>
+                <button>3/2</button>
+                <button>50</button>
+                <button>MAX</button>
+            </section>
 
-        <section class="betting-area">
-            <div class="bet-amount">
-                <input type="number" id="bet-input" value="10">
-                <button id="increase-bet">+</button>
-                <button id="decrease-bet">-</button>
-            </div>
-            <div class="bet-options">
-                <button class="bet-option" data-bet="straight">Straight Bet</button>
-                <button class="bet-option" data-bet="split">Split Bet</button>
-                <!-- More bet options -->
-            </div>
-            <div class="bet-history">
-                <h2>Bet History</h2>
-                <div class="history-container"></div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="support">
-            <button id="support-button"><i class="fas fa-question-circle"></i> Support</button>
-        </div>
-    </footer>
+            <section class="results">
+                <h2>Recent Results</h2>
+                <div class="results-list">
+                    <p>Win 2x</p>
+                    <p>Place Set</p>
+                    <p>7 Bots</p>
+                    <p>4 UnUnUnUnBE...</p>
+                    <p>Wakein252</p>
+                    <p>JoniBone</p>
+                    <p>push80</p>
+                    <p>CTWA response...</p>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
