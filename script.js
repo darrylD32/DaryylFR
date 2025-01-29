@@ -1,6 +1,7 @@
 let balance = 1000;
 let currentBet = { red: 0, black: 0, green: 0 };
 let isSpinning = false;
+let currentPosition = 0;
 
 const roulette = document.getElementById('roulette');
 const resultElement = document.getElementById('result');
@@ -17,8 +18,8 @@ function createRouletteBox(number) {
 }
 
 function initializeRoulette() {
-    for (let i = 0; i < 15; i++) {
-        roulette.appendChild(createRouletteBox(i));
+    for (let i = 0; i < 30; i++) { // Initial set of boxes
+        roulette.appendChild(createRouletteBox(i % 15));
     }
 }
 
@@ -73,7 +74,7 @@ function spinRoulette() {
     const resultColor = randomSegment === 0 ? 'green' : (randomSegment % 2 === 1 ? 'red' : 'black');
     
     const segmentWidth = 60; // Width of each segment
-    const targetPosition = -(randomSegment * segmentWidth) - (3 * 15 * segmentWidth); // 3 full rounds
+    const targetPosition = currentPosition - (randomSegment * segmentWidth) - (3 * 15 * segmentWidth); // 3 full rounds
 
     addMoreBoxes(); // Add more boxes to ensure continuous display
 
@@ -101,18 +102,14 @@ function spinRoulette() {
         resultElement.textContent = `Landed on: ${resultColor} (${randomSegment}). You won ${winnings} coins!`;
         document.getElementById('balance').textContent = `Balance: ${balance} coins`;
 
-        // Reset roulette position and continue spinning
-        roulette.style.transition = 'none';
-        roulette.style.transform = 'translateX(0)';
-        setTimeout(() => {
-            roulette.style.transition = 'transform 3s ease-out';
-            isSpinning = false;
-        }, 50);
+        currentPosition = targetPosition; // Update current position
 
         // Reset bets
         currentBet = { red: 0, black: 0, green: 0 };
         betRedAmount.textContent = 'Bet on Red: 0 coins';
         betBlackAmount.textContent = 'Bet on Black: 0 coins';
         betGreenAmount.textContent = 'Bet on Green: 0 coins';
+
+        isSpinning = false;
     }, 3000);
 }
