@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS</title>
+    <title>CSGO</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
-            <h1>CSGO Roll</h1>
+            <h1>CSGO</h1>
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -20,34 +21,42 @@
             </nav>
         </header>
 
+        <!-- Main Game Area -->
         <main>
-            <section class="game-info">
-                <h2>ROLLING IN 3.16</h2>
-                <div class="rotation">
+            <!-- Timer Section -->
+            <section class="timer">
+                <h2>ROLLING IN <span id="countdown">3.16</span></h2>
+            </section>
+
+            <!-- Rotation Section -->
+            <section class="rotation">
+                <div class="rotation-item">
                     <p>1:0.04</p>
                     <p>Win 2x</p>
                     <p>Read list</p>
                 </div>
             </section>
 
-            <section class="bits-section">
-                <div class="bits">
+            <!-- Bits Section -->
+            <section class="bits">
+                <div class="bits-item">
                     <h3>2 bits</h3>
-                    <p>push80</p>
-                    <p>y4807</p>
+                    <p>Player 1</p>
+                    <p>Player 2</p>
                 </div>
-                <div class="bits">
+                <div class="bits-item">
                     <h3>4.00</h3>
                     <p>0.05</p>
                 </div>
-                <div class="bits">
+                <div class="bits-item">
                     <h3>5 bits</h3>
                     <p>Win 14x</p>
                     <p>Read list</p>
                 </div>
-                <!-- Add more bits sections as needed -->
+                <!-- Add more bits items as needed -->
             </section>
 
+            <!-- Controls Section -->
             <section class="controls">
                 <button>CLÉAR</button>
                 <button>LGF</button>
@@ -59,6 +68,7 @@
                 <button>MAX</button>
             </section>
 
+            <!-- Results Section -->
             <section class="results">
                 <h2>Recent Results</h2>
                 <div class="results-list">
@@ -66,10 +76,10 @@
                     <p>Place Set</p>
                     <p>7 Bots</p>
                     <p>4 UnUnUnUnBE...</p>
-                    <p>Wakein252</p>
-                    <p>JoniBone</p>
-                    <p>push80</p>
-                    <p>CTWA response...</p>
+                    <p>Player 1</p>
+                    <p>Player 2</p>
+                    <p>Player 3</p>
+                    <p>Player 4</p>
                 </div>
             </section>
         </main>
