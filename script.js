@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const balanceElement = document.getElementById('balance');
     const betInput = document.getElementById('bet-input');
-    const placeBetButton = document.getElementById('place-bet');
     const betOptions = document.querySelectorAll('.bet-option');
     const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
@@ -65,40 +64,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Handle bet placement
-    placeBetButton.addEventListener('click', function () {
-        if (isSpinning) {
-            showNotification('Wait for the current spin to finish!', false);
-            return;
-        }
-
-        const betAmount = parseInt(betInput.value);
-        if (betAmount < 1 || betAmount > balance) {
-            showNotification('Invalid bet amount!', false);
-            return;
-        }
-
-        if (!selectedColor) {
-            showNotification('Please select a color to bet on!', false);
-            return;
-        }
-
-        // Deduct bet amount from balance
-        balance -= betAmount;
-        updateBalance();
-
-        // Add bet to the list
-        bets.push({ amount: betAmount, color: selectedColor });
-
-        // Notify the player
-        showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
-    });
-
-    // Handle color selection
     betOptions.forEach(option => {
         option.addEventListener('click', function () {
+            if (isSpinning) {
+                showNotification('Wait for the current spin to finish!', false);
+                return;
+            }
+
+            const betAmount = parseInt(betInput.value);
+            if (betAmount < 1 || betAmount > balance) {
+                showNotification('Invalid bet amount!', false);
+                return;
+            }
+
             selectedColor = this.dataset.color;
-            betOptions.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+
+            // Deduct bet amount from balance
+            balance -= betAmount;
+            updateBalance();
+
+            // Add bet to the list
+            bets.push({ amount: betAmount, color: selectedColor });
+
+            // Notify the player
+            showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
         });
     });
 
