@@ -7,6 +7,12 @@ body {
     padding: 0;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -15,14 +21,8 @@ header {
     background-color: #333;
 }
 
-.logo img {
-    width: 100px;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+header h1 {
+    margin: 0;
 }
 
 nav ul {
@@ -44,157 +44,52 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-.user-account {
-    display: flex;
-    align-items: center;
-}
-
-.balance {
-    font-size: 24px;
-    margin-right: 20px;
-}
-
-.profile-pic img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
 main {
     padding: 20px;
 }
 
-.recent-results, .jackpot-display, .roulette-wheel, .betting-area {
+.game-info, .bits-section, .controls, .results {
     margin-bottom: 40px;
 }
 
-.recent-results .results-container {
+.game-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.rotation p {
+    margin: 5px 0;
+}
+
+.bits-section {
     display: flex;
-    overflow-x: auto;
-}
-
-.recent-results .result {
-    background-color: #444;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.jackpot-display .coin-counter {
-    font-size: 36px;
-    text-align: center;
-}
-
-.roulette-wheel .wheel {
-    width: 300px;
-    height: 300px;
-    background-color: #555;
-    border-radius: 50%;
-    margin: 0 auto;
-    position: relative;
-}
-
-.roulette-wheel .wheel::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#spin-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#spin-button:hover {
-    background-color: #0056b3;
-}
-
-.betting-area .bet-amount {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.betting-area .bet-amount input {
-    width: 100px;
-    padding: 10px;
-    font-size: 18px;
-    text-align: center;
-    border: 2px solid #007bff;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-}
-
-.betting-area .bet-amount button {
-    padding: 10px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 10px;
-}
-
-.betting-area .bet-amount button:hover {
-    background-color: #0056b3;
-}
-
-.betting-area .bet-options {
-    display: flex;
-    justify-content: center;
     flex-wrap: wrap;
 }
 
-.betting-area .bet-option {
-    padding: 10px 20px;
-    margin: 5px;
+.bits {
     background-color: #444;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.betting-area .bet-option:hover {
-    background-color: #555;
-}
-
-.betting-area .bet-history {
-    margin-top: 20px;
-}
-
-.betting-area .history-container {
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: #333;
     padding: 10px;
+    margin: 5px;
     border-radius: 5px;
+    width: calc(33.333% - 10px);
+    box-sizing: border-box;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
+.bits h3 {
+    margin: 0;
+    font-size: 18px;
 }
 
-#support-button {
+.bits p {
+    margin: 5px 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.controls button {
     padding: 10px 20px;
     font-size: 18px;
     background-color: #007bff;
@@ -204,6 +99,15 @@ footer {
     cursor: pointer;
 }
 
-#support-button:hover {
+.controls button:hover {
     background-color: #0056b3;
+}
+
+.results h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.results-list p {
+    margin: 5px 0;
 }
