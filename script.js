@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const boxes = document.querySelectorAll('.box');
 
     function getRandomColor() {
-        const colors = ['red', 'black', 'green'];
+        const colors = ['#FF0000', '#000', '#00FF00']; // Red, Black, Green
         const weights = [7, 7, 1]; // 7 reds, 7 blacks, 1 green
         const total = weights.reduce((sum, weight) => sum + weight, 0);
         let random = Math.random() * total;
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 box.style.backgroundColor = resultColor;
                 box.style.transform = 'rotate(0deg)';
             });
-            const multiplier = resultColor === 'green' ? '14x' : '2x';
-            resultDiv.textContent = `The wheel landed on ${resultColor}. You win ${multiplier}!`;
+            const multiplier = resultColor === '#00FF00' ? '14x' : '2x';
+            resultDiv.textContent = `The wheel landed on ${resultColor === '#FF0000' ? 'Red' : resultColor === '#000' ? 'Black' : 'Green'}. You win ${multiplier}!`;
         }, 1500); // Delay to simulate spinning
     });
 });
