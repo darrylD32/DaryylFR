@@ -1,39 +1,44 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const spinButton = document.getElementById('spinButton');
-    const resultDiv = document.getElementById('result');
-    const boxes = document.querySelectorAll('.box');
+// Generate Recent Results
+const resultsGrid = document.querySelector('.results-grid');
+for (let i = 0; i < 100; i++) {
+  const result = document.createElement('div');
+  result.textContent = Math.floor(Math.random() * 37);
+  result.style.backgroundColor = ['red', 'green', 'black'][Math.floor(Math.random() * 3)];
+  resultsGrid.appendChild(result);
+}
 
-    function getRandomColor() {
-        const colors = ['#FF0000', '#000', '#00FF00']; // Red, Black, Green
-        const weights = [7, 7, 1]; // 7 reds, 7 blacks, 1 green
-        const total = weights.reduce((sum, weight) => sum + weight, 0);
-        let random = Math.random() * total;
-        
-        for (let i = 0; i < colors.length; i++) {
-            random -= weights[i];
-            if (random < 0) {
-                return colors[i];
-            }
-        }
+// Roulette Wheel Simulation
+const wheel = document.querySelector('.wheel');
+wheel.addEventListener('click', () => {
+  wheel.style.transition = 'transform 3s ease-out';
+  const randomRotation = Math.floor(Math.random() * 360) + 1080; // Spin at least 3 full rotations
+  wheel.style.transform = `rotate(${randomRotation}deg)`;
+});
+
+// Bet Amount Adjustment
+const betInput = document.querySelector('.bet-amount input');
+document.querySelectorAll('.bet-amount button').forEach(button => {
+  button.addEventListener('click', () => {
+    const currentValue = parseInt(betInput.value);
+    if (button.classList.contains('decrement')) {
+      betInput.value = Math.max(1, currentValue - 1);
+    } else if (button.classList.contains('increment')) {
+      betInput.value = currentValue + 10;
+    } else if (button.classList.contains('quick-bet')) {
+      const multiplier = button.getAttribute('data-multiplier');
+      if (multiplier === 'max') {
+        betInput.value = 1000;
+      } else {
+        betInput.value = Math.round(currentValue * multiplier);
+      }
     }
+  });
+});
 
-    function animateWheel() {
-        boxes.forEach(box => {
-            box.style.backgroundColor = getRandomColor();
-            box.style.transform = `rotate(${Math.random() * 360}deg)`;
-        });
-    }
-
-    spinButton.addEventListener('click', function() {
-        animateWheel();
-        setTimeout(() => {
-            const resultColor = getRandomColor();
-            boxes.forEach(box => {
-                box.style.backgroundColor = resultColor;
-                box.style.transform = 'rotate(0deg)';
-            });
-            const multiplier = resultColor === '#00FF00' ? '14x' : '2x';
-            resultDiv.textContent = `The wheel landed on ${resultColor === '#FF0000' ? 'Red' : resultColor === '#000' ? 'Black' : 'Green'}. You win ${multiplier}!`;
-        }, 1500); // Delay to simulate spinning
-    });
+// Place Bet
+document.querySelectorAll('.bet-option').forEach(option => {
+  option.addEventListener('click', () => {
+    const multiplier = option.getAttribute('data-multiplier');
+    alert(`You placed a bet to win ${multiplier}x!`);
+  });
 });
