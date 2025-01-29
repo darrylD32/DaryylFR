@@ -8,25 +8,27 @@ const betRedAmount = document.getElementById('betRedAmount');
 const betBlackAmount = document.getElementById('betBlackAmount');
 const betGreenAmount = document.getElementById('betGreenAmount');
 
-function createRouletteBoxes() {
-    const boxes = [];
-    for (let i = 0; i < 15; i++) {
-        const box = document.createElement('div');
-        box.className = 'number';
-        box.textContent = i;
-        box.style.backgroundColor = i === 0 ? 'green' : (i % 2 === 1 ? 'red' : 'black');
-        boxes.push(box);
-    }
-    return boxes;
+function createRouletteBox(number) {
+    const box = document.createElement('div');
+    box.className = 'number';
+    box.textContent = number;
+    box.style.backgroundColor = number === 0 ? 'green' : (number % 2 === 1 ? 'red' : 'black');
+    return box;
 }
 
 function initializeRoulette() {
-    const boxes = createRouletteBoxes();
-    roulette.innerHTML = '';
-    boxes.forEach(box => roulette.appendChild(box));
+    for (let i = 0; i < 15; i++) {
+        roulette.appendChild(createRouletteBox(i));
+    }
 }
 
 initializeRoulette();
+
+function addMoreBoxes() {
+    for (let i = 0; i < 15; i++) {
+        roulette.appendChild(createRouletteBox(i));
+    }
+}
 
 document.getElementById('placeBet').addEventListener('click', function() {
     const betAmount = parseInt(document.getElementById('betAmount').value);
@@ -72,6 +74,8 @@ function spinRoulette() {
     
     const segmentWidth = 60; // Width of each segment
     const targetPosition = -(randomSegment * segmentWidth) - (3 * 15 * segmentWidth); // 3 full rounds
+
+    addMoreBoxes(); // Add more boxes to ensure continuous display
 
     roulette.style.transition = 'transform 3s ease-out';
     roulette.style.transform = `translateX(${targetPosition}px)`;
