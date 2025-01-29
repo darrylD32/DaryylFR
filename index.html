@@ -1,31 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crash Game</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSGO-ODDS</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Crash Game</h1>
-    <div class="balance">Balance: <span id="balance">1000</span> coins</div>
-    <div class="game">
-      <div class="multiplier-display">
-        <span id="multiplier">1.00x</span>
-      </div>
-      <button id="start-button">Start Game</button>
-      <button id="cashout-button" disabled>Cash Out</button>
+    <div class="container">
+        <h1>CSGO-ODDS</h1>
+        <p>Guess the outcome and see if you win!</p>
+        <div class="game">
+            <button id="playButton">Play</button>
+            <p id="result"></p>
+        </div>
     </div>
-    <div class="bet">
-      <label for="bet-amount">Bet Amount:</label>
-      <input type="number" id="bet-amount" min="1" value="10">
-    </div>
-    <div class="history">
-      <h2>Game History</h2>
-      <ul id="history-list"></ul>
-    </div>
-  </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
