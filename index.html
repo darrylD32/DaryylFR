@@ -1,96 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaming Roulette</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Gambling Site</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="logo">GAMING ROULETTE</div>
-    <nav>
-      <ul>
-        <li><a href="#">TRADE</a></li>
-        <li><a href="#">GAMES</a></li>
-        <li><a href="#">ESPORTS</a></li>
-        <li><a href="#">PVP</a></li>
-        <li><a href="#">AFFILIATES</a></li>
-        <li><a href="#">REWARDS</a></li>
-      </ul>
-    </nav>
-    <div class="user-info">
-      <span class="balance">0.00</span>
-      <button class="add-funds">ADD FUNDS</button>
-      <img src="avatar.png" alt="User Avatar" class="avatar">
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">TRADE</a></li>
+                <li><a href="#">GAMES</a></li>
+                <li><a href="#">ESPORTS</a></li>
+                <li><a href="#">PVP</a></li>
+                <li><a href="#">AFFILIATES</a></li>
+                <li><a href="#">REWARDS</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <span class="balance">Balance: 0.00</span>
+            <button class="add-funds">Add Funds</button>
+            <div class="profile-pic">
+                <img src="user-avatar.png" alt="User Avatar">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="recent-results">
+            <h2>LAST 100 RESULTS</h2>
+            <div class="results">
+                <!-- Dynamic results will go here -->
+            </div>
+        </section>
+
+        <section class="jackpot">
+            <h2>TRIPLE GREEN JACKPOT</h2>
+            <div class="jackpot-amount">
+                $3,471.30
+            </div>
+        </section>
+
+        <section class="roulette">
+            <div class="roulette-wheel">
+                <div id="wheel"></div>
+                <button id="spin-wheel">SPIN</button>
+            </div>
+            <div class="betting-area">
+                <input type="number" id="bet-amount" placeholder="Enter Bet" />
+                <div class="bet-options">
+                    <button class="bet-option" data-multiplier="2x">Win 2x</button>
+                    <button class="bet-option" data-multiplier="14x">Win 14x</button>
+                    <button class="bet-option" data-multiplier="7x">Win 7x</button>
+                </div>
+                <button class="place-bet">Place Bet</button>
+            </div>
+        </section>
+
+        <section class="bet-history">
+            <h2>Bet History</h2>
+            <div class="history">
+                <!-- Dynamic bet history will go here -->
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-support">
+        <button class="chat-button">Chat Support</button>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main>
-    <!-- Recent Results -->
-    <section class="recent-results">
-      <h2>LAST 100 RESULTS</h2>
-      <div class="results-grid">
-        <!-- Results will be dynamically generated here -->
-      </div>
-    </section>
-
-    <!-- Jackpot Display -->
-    <section class="jackpot">
-      <h2>TRIPLE GREEN JACKPOT</h2>
-      <div class="jackpot-amount">$3,471.30</div>
-    </section>
-
-    <!-- Roulette Wheel -->
-    <section class="roulette">
-      <div class="wheel"></div>
-      <div class="mode-toggles">
-        <button class="classic-mode active">CLASSIC WHEEL</button>
-        <button class="crazy-mode">CRAZY MODE</button>
-      </div>
-    </section>
-
-    <!-- Betting Area -->
-    <section class="betting-area">
-      <div class="bet-amount">
-        <input type="number" value="10" min="1" max="1000">
-        <button class="decrement">-1</button>
-        <button class="increment">+10</button>
-        <button class="quick-bet" data-multiplier="0.5">1/2</button>
-        <button class="quick-bet" data-multiplier="2">X2</button>
-        <button class="quick-bet" data-multiplier="max">MAX</button>
-      </div>
-      <div class="bet-options">
-        <button class="bet-option" data-multiplier="2">Win 2x</button>
-        <button class="bet-option" data-multiplier="7">Win 7x</button>
-        <button class="bet-option" data-multiplier="14">Win 14x</button>
-      </div>
-    </section>
-
-    <!-- Bet History -->
-    <section class="bet-history">
-      <h2>BET HISTORY</h2>
-      <div class="history-list">
-        <!-- Bet history will be dynamically generated here -->
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <p>This website is for entertainment purposes only. No real money is involved.</p>
-    <div class="social-links">
-      <a href="#">Twitter</a>
-      <a href="#">Discord</a>
-      <a href="#">Instagram</a>
-    </div>
-  </footer>
-
-  <!-- Chat Icon -->
-  <div class="chat-icon">💬</div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
