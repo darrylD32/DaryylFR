@@ -62,7 +62,7 @@ header h1 {
 }
 
 .slot {
-    width: 60px;
+    width: 80px; /* Increased width for better spacing */
     height: 60px;
     display: flex;
     justify-content: center;
