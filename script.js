@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Stop the wheel at the winning slot
         wheel.style.transition = 'transform 3s ease-out';
-        wheel.style.transform = `translateX(-${randomSlot * 60}px)`;
+        wheel.style.transform = `translateX(-${randomSlot * 80}px)`; // Adjusted for wider slots
 
         // Check if the player won
         setTimeout(() => {
