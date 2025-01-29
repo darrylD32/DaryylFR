@@ -1,15 +1,38 @@
 let balance = 1000;
-let currentBet = 0;
-let betOn = null;
+let currentBet = { red: 0, black: 0, green: 0 };
 let isSpinning = false;
+
+const roulette = document.getElementById('roulette');
+const resultElement = document.getElementById('result');
+const betRedAmount = document.getElementById('betRedAmount');
+const betBlackAmount = document.getElementById('betBlackAmount');
+const betGreenAmount = document.getElementById('betGreenAmount');
+
+function createRouletteBoxes() {
+    const boxes = [];
+    for (let i = 0; i < 15; i++) {
+        const box = document.createElement('div');
+        box.className = 'number';
+        box.textContent = i;
+        box.style.backgroundColor = i === 0 ? 'green' : (i % 2 === 1 ? 'red' : 'black');
+        boxes.push(box);
+    }
+    return boxes;
+}
+
+function initializeRoulette() {
+    const boxes = createRouletteBoxes();
+    roulette.innerHTML = '';
+    boxes.forEach(box => roulette.appendChild(box));
+}
+
+initializeRoulette();
 
 document.getElementById('placeBet').addEventListener('click', function() {
     const betAmount = parseInt(document.getElementById('betAmount').value);
-    if (betAmount > 0 && betAmount <= balance && betOn !== null) {
-        currentBet = betAmount;
+    if (betAmount > 0 && betAmount <= balance && (currentBet.red > 0 || currentBet.black > 0 || currentBet.green > 0)) {
         balance -= betAmount;
         document.getElementById('balance').textContent = `Balance: ${balance} coins`;
-        alert(`You placed a bet of ${betAmount} coins on ${betOn}.`);
         spinRoulette();
     } else {
         alert('Invalid bet amount, insufficient balance, or no bet option selected.');
@@ -17,57 +40,62 @@ document.getElementById('placeBet').addEventListener('click', function() {
 });
 
 document.getElementById('betRed').addEventListener('click', function() {
-    betOn = 'Red';
-    alert('You are betting on Red (2x).');
+    const betAmount = parseInt(document.getElementById('betAmount').value);
+    if (betAmount > 0 && betAmount <= balance) {
+        currentBet.red += betAmount;
+        betRedAmount.textContent = `Bet on Red: ${currentBet.red} coins`;
+    }
 });
 
 document.getElementById('betBlack').addEventListener('click', function() {
-    betOn = 'Black';
-    alert('You are betting on Black (2x).');
+    const betAmount = parseInt(document.getElementById('betAmount').value);
+    if (betAmount > 0 && betAmount <= balance) {
+        currentBet.black += betAmount;
+        betBlackAmount.textContent = `Bet on Black: ${currentBet.black} coins`;
+    }
 });
 
 document.getElementById('betGreen').addEventListener('click', function() {
-    betOn = 'Green';
-    alert('You are betting on Green (14x).');
+    const betAmount = parseInt(document.getElementById('betAmount').value);
+    if (betAmount > 0 && betAmount <= balance) {
+        currentBet.green += betAmount;
+        betGreenAmount.textContent = `Bet on Green: ${currentBet.green} coins`;
+    }
 });
 
 function spinRoulette() {
     if (isSpinning) return;
     isSpinning = true;
 
-    const roulette = document.getElementById('roulette');
-    const resultElement = document.getElementById('result');
-    
-    resultElement.textContent = 'Spinning...';
-    
     const randomSegment = Math.floor(Math.random() * 15); // 0-14
-    const resultColor = randomSegment === 0 ? 'Green' : (randomSegment % 2 === 1 ? 'Red' : 'Black');
+    const resultColor = randomSegment === 0 ? 'green' : (randomSegment % 2 === 1 ? 'red' : 'black');
     
-    const segmentWidth = 70; // Width of each segment including margin
-    const targetPosition = -(randomSegment * segmentWidth);
+    const segmentWidth = 60; // Width of each segment
+    const targetPosition = -(randomSegment * segmentWidth) - (3 * 15 * segmentWidth); // 3 full rounds
 
     roulette.style.transition = 'transform 3s ease-out';
     roulette.style.transform = `translateX(${targetPosition}px)`;
     
     setTimeout(() => {
         let multiplier;
-        if (resultColor === 'Green') {
+        if (resultColor === 'green') {
             multiplier = 14;
         } else {
             multiplier = 2;
         }
 
-        if (betOn === resultColor) {
-            const winnings = currentBet * multiplier;
-            balance += winnings;
-            resultElement.textContent = `Landed on: ${resultColor} (${randomSegment}). You won ${winnings} coins!`;
-        } else {
-            resultElement.textContent = `Landed on: ${resultColor} (${randomSegment}). You lost ${currentBet} coins.`;
+        let winnings = 0;
+        if (resultColor === 'red' && currentBet.red > 0) {
+            winnings = currentBet.red * multiplier;
+        } else if (resultColor === 'black' && currentBet.black > 0) {
+            winnings = currentBet.black * multiplier;
+        } else if (resultColor === 'green' && currentBet.green > 0) {
+            winnings = currentBet.green * multiplier;
         }
 
+        balance += winnings;
+        resultElement.textContent = `Landed on: ${resultColor} (${randomSegment}). You won ${winnings} coins!`;
         document.getElementById('balance').textContent = `Balance: ${balance} coins`;
-        currentBet = 0;
-        betOn = null;
 
         // Reset roulette position and continue spinning
         roulette.style.transition = 'none';
@@ -76,5 +104,11 @@ function spinRoulette() {
             roulette.style.transition = 'transform 3s ease-out';
             isSpinning = false;
         }, 50);
+
+        // Reset bets
+        currentBet = { red: 0, black: 0, green: 0 };
+        betRedAmount.textContent = 'Bet on Red: 0 coins';
+        betBlackAmount.textContent = 'Bet on Black: 0 coins';
+        betGreenAmount.textContent = 'Bet on Green: 0 coins';
     }, 3000);
 }
