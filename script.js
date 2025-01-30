@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let bets = [];
     let selectedColor = null;
 
-    // Generate roulette slots (7 red, 7 black, 1 green) and duplicate for infinite scrolling
+    // Generate roulette slots (7 red, 7 black, 1 green)
     function generateSlots() {
+        const slots = [];
         for (let i = 0; i < 15; i++) {
             const slot = document.createElement('div');
             slot.className = 'slot';
@@ -22,10 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (i === 0) slot.classList.add('green');
             else if (i % 2 === 0) slot.classList.add('black');
             else slot.classList.add('red');
-            slotsContainer.appendChild(slot);
+            slots.push(slot);
         }
-        // Duplicate slots to create an infinite scrolling effect
-        slotsContainer.innerHTML += slotsContainer.innerHTML;
+
+        // Add duplicate slots to create infinite scrolling effect
+        for (let i = 0; i < 3; i++) {
+            slots.forEach(slot => slotsContainer.appendChild(slot.cloneNode(true)));
+        }
     }
 
     // Update the balance display
@@ -94,11 +98,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const winningColor = slots[randomSlot].classList.contains('red') ? 'red' :
             slots[randomSlot].classList.contains('black') ? 'black' : 'green';
 
-        // Distance to move the wheel
-        const slotWidth = 60; // Width of a slot in pixels
+        // Calculate the distance the wheel needs to travel to stop at the winning slot
+        const slotWidth = 60; // Slot width in pixels
         const offset = Math.floor(slots.length / 2) * slotWidth; // Center offset for seamless scrolling
-        const distance = offset + randomSlot * slotWidth + 3600; // Add extra distance for smooth deceleration
+        const distance = offset + randomSlot * slotWidth + 3600; // Extra distance for smooth deceleration
 
+        // Apply a smooth transition to simulate deceleration
         wheel.style.transition = 'transform 3s cubic-bezier(0.25, 1, 0.5, 1)';
         wheel.style.transform = `translateX(-${distance}px)`;
 
