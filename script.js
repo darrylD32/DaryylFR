@@ -122,6 +122,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 3000);
             });
 
+            // Announce winning color
+            const announcement = document.createElement('div');
+            announcement.textContent = `Winning Color: ${winningColor}`;
+            announcement.style.position = 'fixed';
+            announcement.style.top = '20px';
+            announcement.style.left = '50%';
+            announcement.style.transform = 'translateX(-50%)';
+            announcement.style.backgroundColor = '#333';
+            announcement.style.color = '#fff';
+            announcement.style.padding = '10px 20px';
+            announcement.style.borderRadius = '5px';
+            announcement.style.fontSize = '18px';
+            announcement.style.zIndex = '1000';
+            document.body.appendChild(announcement);
+
+            // Remove announcement after 3 seconds
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 3000);
+
             // Reset for the next round
             isSpinning = false;
             bets = [];
