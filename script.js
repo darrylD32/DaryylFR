@@ -108,26 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             // Display winnings under the selected color button
-            const displayElement = document.getElementById(`${selectedColor}-display`);
-            if (totalWinnings > 0) {
-                displayElement.textContent = `+${totalWinnings}`;
-            } else {
-                displayElement.textContent = `-${bets.reduce((sum, bet) => sum + bet.amount, 0)}`;
-            }
-
-            // Clear winnings display after 3 seconds
-            setTimeout(() => {
-                displayElement.textContent = '';
-                // Reset for the next round
-                isSpinning = false;
-                bets = [];
-                countdown = 10;
-                countdownElement.textContent = countdown;
-                startCountdown();
-            }, 3000);
-        }, 3000);
-    }
-
-    // Start the initial countdown
-    startCountdown();
-});
+            bets.forEach(bet => {
+                const displayElement = document.getElementById(`${bet.color}-display`);
+                if (bet.color === winningColor) {
+                    displayElement.textContent = `+${bet.amount + (bet.amount * (bet.color === 'green'
