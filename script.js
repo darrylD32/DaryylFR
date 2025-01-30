@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Stop the wheel at the winning slot
         wheel.style.transition = 'transform 4s cubic-bezier(0.25, 1, 0.5, 1)';
-        wheel.style.transform = `translateX(-${randomSlot * 60}px)`;
+        wheel.style.transform = `translateX(-${randomSlot * 60}px)`; // Left-to-right movement
 
         // Check if the player won
         setTimeout(() => {
