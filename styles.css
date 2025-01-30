@@ -26,19 +26,8 @@ header h1 {
     font-size: 24px;
 }
 
-.balance-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #444;
-    padding: 10px 20px;
-    border-radius: 5px;
+.balance {
     font-size: 18px;
-}
-
-.balance-box i {
-    font-size: 24px;
-    color: #ffcc00;
 }
 
 /* Timer Display */
