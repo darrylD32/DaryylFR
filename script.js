@@ -139,4 +139,3 @@ document.addEventListener('DOMContentLoaded', function () {
     // Start the initial countdown
     startCountdown();
 });
-
