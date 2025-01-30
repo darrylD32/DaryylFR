@@ -13,15 +13,19 @@ document.addEventListener('DOMContentLoaded', function () {
     let bets = [];
     let selectedColor = null;
 
-    // Generate roulette slots (7 red, 7 black, 1 green)
-    for (let i = 0; i < 15; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'slot';
-        slot.textContent = i;
-        if (i === 0) slot.classList.add('green');
-        else if (i % 2 === 0) slot.classList.add('black');
-        else slot.classList.add('red');
-        slotsContainer.appendChild(slot);
+    // Generate roulette slots (7 red, 7 black, 1 green) and duplicate for infinite scrolling
+    function generateSlots() {
+        for (let i = 0; i < 15; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            slot.textContent = i;
+            if (i === 0) slot.classList.add('green');
+            else if (i % 2 === 0) slot.classList.add('black');
+            else slot.classList.add('red');
+            slotsContainer.appendChild(slot);
+        }
+        // Duplicate slots to create an infinite scrolling effect
+        slotsContainer.innerHTML += slotsContainer.innerHTML;
     }
 
     // Update the balance display
@@ -91,7 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
             slots[randomSlot].classList.contains('black') ? 'black' : 'green';
 
         // Distance to move the wheel
-        const distance = randomSlot * 60 + 3600; // Add extra distance for smooth deceleration
+        const slotWidth = 60; // Width of a slot in pixels
+        const offset = Math.floor(slots.length / 2) * slotWidth; // Center offset for seamless scrolling
+        const distance = offset + randomSlot * slotWidth + 3600; // Add extra distance for smooth deceleration
+
         wheel.style.transition = 'transform 3s cubic-bezier(0.25, 1, 0.5, 1)';
         wheel.style.transform = `translateX(-${distance}px)`;
 
@@ -123,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 3000);
     }
 
-    // Start the initial countdown
+    // Initialize game
+    generateSlots();
     updateBalance();
     startCountdown();
 });
