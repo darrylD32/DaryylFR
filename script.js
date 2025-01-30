@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
-    const notification = document.getElementById('notification');
+    const redDisplay = document.getElementById('red-display');
+    const blackDisplay = document.getElementById('black-display');
+    const greenDisplay = document.getElementById('green-display');
 
     let balance = 1000;
     let currentBet = 10;
@@ -16,11 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let bets = [];
 
     // Generate roulette slots (7 red, 7 black, 1 green)
-    const totalSlots = 30; // Ensure a larger set of slots for infinite scrolling
     const slots = [];
-
-    // Create slot elements
-    for (let i = 0; i < totalSlots; i++) {
+    for (let i = 0; i < 15; i++) {
         const slot = document.createElement('div');
         slot.className = 'slot';
         slot.textContent = i;
@@ -35,22 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
         slotsContainer.appendChild(slot);
     }
 
-    // Duplicate slots for infinite scrolling effect
+    // Duplicate slots for infinite scrolling
     slotsContainer.innerHTML += slotsContainer.innerHTML;
 
     // Update balance display
     function updateBalance() {
         balanceElement.textContent = balance;
-    }
-
-    // Show notification
-    function showNotification(message, isWin) {
-        notification.textContent = message;
-        notification.style.backgroundColor = isWin ? '#4dff4d' : '#ff4d4d';
-        notification.style.display = 'block';
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 2000);
     }
 
     // Start the countdown timer
@@ -70,14 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
     betOptions.forEach(option => {
         option.addEventListener('click', function () {
             if (isSpinning) {
-                showNotification('Wait for the current spin to finish!', false);
-                return;
+                return; // Do not accept bets during spin
             }
 
             const betAmount = parseInt(betInput.value);
             if (betAmount < 1 || betAmount > balance) {
-                showNotification('Invalid bet amount!', false);
-                return;
+                return; // Invalid bet amount
             }
 
             selectedColor = this.dataset.color;
@@ -89,8 +76,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add bet to the list
             bets.push({ amount: betAmount, color: selectedColor });
 
-            // Notify the player
-            showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
+            // Display bet under the selected color button
+            const displayElement = document.getElementById(`${selectedColor}-display`);
+            displayElement.textContent = `Bet: ${betAmount}`;
         });
     });
 
@@ -99,14 +87,13 @@ document.addEventListener('DOMContentLoaded', function () {
         isSpinning = true;
         const wheel = document.querySelector('.wheel');
         const slots = document.querySelectorAll('.slot');
-        const randomSlot = Math.floor(Math.random() * totalSlots);
+        const randomSlot = Math.floor(Math.random() * 15);
         const winningColor = slots[randomSlot].classList.contains('red') ? 'red' :
             slots[randomSlot].classList.contains('black') ? 'black' : 'green';
 
-        // Ensure smooth, left-to-right movement of the wheel
-        const spinDistance = randomSlot * 60; // 60px width per slot
-        wheel.style.transition = 'transform 3s cubic-bezier(0.25, 1, 0.5, 1)';
-        wheel.style.transform = `translateX(-${spinDistance}px)`; // Only translate left-to-right
+        // Stop the wheel at the winning slot
+        wheel.style.transition = 'transform 3s ease-out';
+        wheel.style.transform = `translateX(-${randomSlot * 80}px)`; // Adjusted for wider slots
 
         // Check if the player won
         setTimeout(() => {
@@ -120,12 +107,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Notify the player
-            if (totalWinnings > 0) {
-                showNotification(`+${totalWinnings} coins!`, true);
-            } else {
-                showNotification(`-${bets.reduce((sum, bet) => sum + bet.amount, 0)} coins`, false);
-            }
+            // Display winnings under the selected color button
+            bets.forEach(bet => {
+                const displayElement = document.getElementById(`${bet.color}-display`);
+                if (bet.color === winningColor) {
+                    displayElement.textContent = `+${bet.amount + (bet.amount * (bet.color === 'green' ? 14 : 2))}`;
+                } else {
+                    displayElement.textContent = `-${bet.amount}`;
+                }
+
+                // Clear winnings display after 3 seconds
+                setTimeout(() => {
+                    displayElement.textContent = '';
+                }, 3000);
+            });
 
             // Reset for the next round
             isSpinning = false;
