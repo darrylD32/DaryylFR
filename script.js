@@ -2,42 +2,47 @@ document.addEventListener('DOMContentLoaded', function () {
     const balanceElement = document.getElementById('balance');
     const betInput = document.getElementById('bet-input');
     const betOptions = document.querySelectorAll('.bet-option');
+    const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
     const notification = document.getElementById('notification');
 
     let balance = 1000;
+    let currentBet = 10;
+    let selectedColor = null;
     let countdown = 10;
     let countdownInterval;
     let isSpinning = false;
     let bets = [];
-    let selectedColor = null;
 
     // Generate roulette slots (7 red, 7 black, 1 green)
-    function generateSlots() {
-        const slots = [];
-        for (let i = 0; i < 15; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot';
-            slot.textContent = i;
-            if (i === 0) slot.classList.add('green');
-            else if (i % 2 === 0) slot.classList.add('black');
-            else slot.classList.add('red');
-            slots.push(slot);
-        }
+    const slots = [];
+    const totalSlots = 30; // Increased slots for smoother scrolling
 
-        // Add duplicate slots to create infinite scrolling effect
-        for (let i = 0; i < 3; i++) {
-            slots.forEach(slot => slotsContainer.appendChild(slot.cloneNode(true)));
+    for (let i = 0; i < totalSlots; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        slot.textContent = i;
+        if (i === 0) {
+            slot.classList.add('green');
+        } else if (i % 2 === 0) {
+            slot.classList.add('black');
+        } else {
+            slot.classList.add('red');
         }
+        slots.push(slot);
+        slotsContainer.appendChild(slot);
     }
 
-    // Update the balance display
+    // Duplicate slots for infinite scrolling
+    slotsContainer.innerHTML += slotsContainer.innerHTML;
+
+    // Update balance display
     function updateBalance() {
         balanceElement.textContent = balance;
     }
 
-    // Show notifications
+    // Show notification
     function showNotification(message, isWin) {
         notification.textContent = message;
         notification.style.backgroundColor = isWin ? '#4dff4d' : '#ff4d4d';
@@ -49,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Start the countdown timer
     function startCountdown() {
-        countdownElement.textContent = countdown;
         countdownInterval = setInterval(() => {
             countdown--;
             countdownElement.textContent = countdown;
@@ -94,25 +98,20 @@ document.addEventListener('DOMContentLoaded', function () {
         isSpinning = true;
         const wheel = document.querySelector('.wheel');
         const slots = document.querySelectorAll('.slot');
-        const randomSlot = Math.floor(Math.random() * 15); // Select a winning slot
+        const randomSlot = Math.floor(Math.random() * totalSlots);
         const winningColor = slots[randomSlot].classList.contains('red') ? 'red' :
             slots[randomSlot].classList.contains('black') ? 'black' : 'green';
 
-        // Calculate the distance the wheel needs to travel to stop at the winning slot
-        const slotWidth = 60; // Slot width in pixels
-        const offset = Math.floor(slots.length / 2) * slotWidth; // Center offset for seamless scrolling
-        const distance = offset + randomSlot * slotWidth + 3600; // Extra distance for smooth deceleration
+        // Stop the wheel at the winning slot
+        wheel.style.transition = 'transform 4s cubic-bezier(0.25, 1, 0.5, 1)';
+        wheel.style.transform = `translateX(-${randomSlot * 60}px)`;
 
-        // Apply a smooth transition to simulate deceleration
-        wheel.style.transition = 'transform 3s cubic-bezier(0.25, 1, 0.5, 1)';
-        wheel.style.transform = `translateX(-${distance}px)`;
-
-        // Check results after the spin
+        // Check if the player won
         setTimeout(() => {
             let totalWinnings = 0;
             bets.forEach(bet => {
                 if (bet.color === winningColor) {
-                    const multiplier = bet.color === 'green' ? 14 : 2;
+                    let multiplier = bet.color === 'green' ? 14 : 2;
                     const winnings = bet.amount * multiplier;
                     totalWinnings += winnings;
                     balance += winnings + bet.amount; // Return bet + winnings
@@ -121,22 +120,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Notify the player
             if (totalWinnings > 0) {
-                showNotification(`You won +${totalWinnings} coins!`, true);
+                showNotification(`+${totalWinnings} coins!`, true);
             } else {
-                showNotification('You lost your bet!', false);
+                showNotification(`-${bets.reduce((sum, bet) => sum + bet.amount, 0)} coins`, false);
             }
 
             // Reset for the next round
             isSpinning = false;
             bets = [];
             countdown = 10;
-            updateBalance();
+            countdownElement.textContent = countdown;
             startCountdown();
-        }, 3000);
+        }, 4000);
     }
 
-    // Initialize game
-    generateSlots();
-    updateBalance();
+    // Start the initial countdown
     startCountdown();
 });
