@@ -138,8 +138,8 @@ header h1 {
 
 .bet-options button {
     flex: 1;
-    padding: 15px 20px;
-    font-size: 18px;
+    padding: 20px 30px; /* Larger buttons */
+    font-size: 20px; /* Larger text */
     font-weight: bold;
     border: none;
     border-radius: 10px;
