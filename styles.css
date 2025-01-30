@@ -46,7 +46,7 @@ header h1 {
     position: relative;
     margin: 20px 0;
     overflow: hidden;
-    width: 100%; /* Make sure the width covers all slots */
+    width: 100%;
 }
 
 .wheel {
@@ -55,10 +55,13 @@ header h1 {
     background-color: #444;
     border-radius: 5px;
     position: relative;
+    transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slots {
     display: flex;
+    width: max-content;
+    transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slot {
@@ -185,4 +188,3 @@ header h1 {
     display: none;
     z-index: 1000;
 }
-
