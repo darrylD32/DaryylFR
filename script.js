@@ -5,9 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsList = document.querySelector('.results-list');
     const slotsContainer = document.querySelector('.slots');
     const countdownElement = document.getElementById('countdown');
-    const redDisplay = document.getElementById('red-display');
-    const blackDisplay = document.getElementById('black-display');
-    const greenDisplay = document.getElementById('green-display');
+    const notification = document.getElementById('notification');
 
     let balance = 1000;
     let currentBet = 10;
@@ -42,6 +40,16 @@ document.addEventListener('DOMContentLoaded', function () {
         balanceElement.textContent = balance;
     }
 
+    // Show notification
+    function showNotification(message, isWin) {
+        notification.textContent = message;
+        notification.style.backgroundColor = isWin ? '#4dff4d' : '#ff4d4d';
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 2000);
+    }
+
     // Start the countdown timer
     function startCountdown() {
         countdownInterval = setInterval(() => {
@@ -59,12 +67,14 @@ document.addEventListener('DOMContentLoaded', function () {
     betOptions.forEach(option => {
         option.addEventListener('click', function () {
             if (isSpinning) {
-                return; // Do not accept bets during spin
+                showNotification('Wait for the current spin to finish!', false);
+                return;
             }
 
             const betAmount = parseInt(betInput.value);
             if (betAmount < 1 || betAmount > balance) {
-                return; // Invalid bet amount
+                showNotification('Invalid bet amount!', false);
+                return;
             }
 
             selectedColor = this.dataset.color;
@@ -76,9 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add bet to the list
             bets.push({ amount: betAmount, color: selectedColor });
 
-            // Display bet under the selected color button
-            const displayElement = document.getElementById(`${selectedColor}-display`);
-            displayElement.textContent = `Bet: ${betAmount}`;
+            // Notify the player
+            showNotification(`Bet placed: ${betAmount} on ${selectedColor}`, false);
         });
     });
 
@@ -93,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Stop the wheel at the winning slot
         wheel.style.transition = 'transform 3s ease-out';
-        wheel.style.transform = `translateX(-${randomSlot * 80}px)`; // Adjusted for wider slots
+        wheel.style.transform = `translateX(-${randomSlot * 60}px)`;
 
         // Check if the player won
         setTimeout(() => {
@@ -107,24 +116,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Display winnings under the selected color button
-            const displayElement = document.getElementById(`${selectedColor}-display`);
+            // Notify the player
             if (totalWinnings > 0) {
-                displayElement.textContent = `+${totalWinnings}`;
+                showNotification(`+${totalWinnings} coins!`, true);
             } else {
-                displayElement.textContent = `-${bets.reduce((sum, bet) => sum + bet.amount, 0)}`;
+                showNotification(`-${bets.reduce((sum, bet) => sum + bet.amount, 0)} coins`, false);
             }
 
-            // Clear winnings display after 3 seconds
-            setTimeout(() => {
-                displayElement.textContent = '';
-                // Reset for the next round
-                isSpinning = false;
-                bets = [];
-                countdown = 10;
-                countdownElement.textContent = countdown;
-                startCountdown();
-            }, 3000);
+            // Reset for the next round
+            isSpinning = false;
+            bets = [];
+            countdown = 10;
+            countdownElement.textContent = countdown;
+            startCountdown();
         }, 3000);
     }
 
