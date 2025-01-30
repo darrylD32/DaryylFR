@@ -1,156 +1,122 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const balanceElement = document.getElementById('balance');
-    const betInput = document.getElementById('bet-input');
-    const betOptions = document.querySelectorAll('.bet-option');
-    const resultsList = document.querySelector('.results-list');
-    const slotsContainer = document.querySelector('.slots');
-    const countdownElement = document.getElementById('countdown');
-    const redDisplay = document.getElementById('red-display');
-    const blackDisplay = document.getElementById('black-display');
-    const greenDisplay = document.getElementById('green-display');
+roulette.js
+const result = false;
+const betArray = [];
+const wheel = document.getElementById('wheel');
+let lastBet = null;
 
-    let balance = 1000;
-    let currentBet = 10;
-    let selectedColor = null;
-    let countdown = 10;
-    let countdownInterval;
-    let isSpinning = false;
-    let bets = [];
+// Roulette wheel numbers (simplified version)
+const wheelNumbers = [0, 32, 7, 28, 15, 24, 22, 19, 6, 18, 13, 26, 11, 20, 27, 29, 8, 21, 31, 36, 5, 17, 23, 4, 2, 24, 25, 14, 30, 12, 1, 19];
+const greenNumber = 0;
 
-    // Generate roulette slots (7 red, 7 black, 1 green)
-    const slots = [];
-    for (let i = 0; i < 15; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'slot';
-        slot.textContent = i;
-        if (i === 0) {
-            slot.classList.add('green');
-        } else if (i % 2 === 0) {
-            slot.classList.add('black');
-        } else {
-            slot.classList.add('red');
+function createHorizontalWheel() {
+    const wheel = document.getElementById('wheel');
+    
+    // Create horizontal segments
+    for (let i = 0; i < 8 * 7 + 14; i++) { // Creates the illusion of a single line by repeating segments
+        const segment = document.createElement('div');
+        if ((i % 2 === 0) && (i !== 0)) {
+            segment.style.stroke = '#6b3e8e';
+            segment.style.strokeWidth = '1px';
+            segment.style.strokeDasharray = i + ',10' + (i > 5 ? ',-10' : '');
+        } else if ((i % 2 === 1) && (i !== 7 * 6)) {
+            segment.style.stroke = '#ff4757';
+            segment.style.strokeWidth = '3px';
         }
-        slots.push(slot);
-        slotsContainer.appendChild(slot);
+        
+        wheel.appendChild(segment);
     }
 
-    // Duplicate slots for infinite scrolling
-    slotsContainer.innerHTML += slotsContainer.innerHTML;
+    // Set green segment
+    const greenSegment = document.createElement('div');
+    greenSegment.style.stroke = '#00ff00';
+    greenSegment.style.strokeWidth = '2px';
+    wheel.appendChild(greenSegment);
 
-    // Update balance display
-    function updateBalance() {
-        balanceElement.textContent = balance;
-    }
-
-    // Start the countdown timer
-    function startCountdown() {
-        countdownInterval = setInterval(() => {
-            countdown--;
-            countdownElement.textContent = countdown;
-
-            if (countdown <= 0) {
-                clearInterval(countdownInterval);
-                spinWheel();
-            }
-        }, 1000);
-    }
-
-    // Handle bet placement
-    betOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            if (isSpinning) {
-                return; // Do not accept bets during spin
-            }
-
-            const betAmount = parseInt(betInput.value);
-            if (betAmount < 1 || betAmount > balance) {
-                return; // Invalid bet amount
-            }
-
-            selectedColor = this.dataset.color;
-
-            // Deduct bet amount from balance
-            balance -= betAmount;
-            updateBalance();
-
-            // Add bet to the list
-            bets.push({ amount: betAmount, color: selectedColor });
-
-            // Display bet under the selected color button
-            const displayElement = document.getElementById(`${selectedColor}-display`);
-            displayElement.textContent = `Bet: ${betAmount}`;
-        });
+    // Numbers
+    wheelNumbers.forEach(num => {
+        const number = document.createElement('span');
+        number.textContent = num;
+        number.style.color = (num === 1 ? '#ffffff' : '#6b3e8e');
+        wheel.appendChild(number);
     });
 
-    // Spin the wheel
-    function spinWheel() {
-        isSpinning = true;
-        const wheel = document.querySelector('.wheel');
-        const slots = document.querySelectorAll('.slot');
-        const randomSlot = Math.floor(Math.random() * 15);
-        const winningColor = slots[randomSlot].classList.contains('red') ? 'red' :
-            slots[randomSlot].classList.contains('black') ? 'black' : 'green';
+    // Green number
+    const greenNum = document.createElement('span');
+    greenNum.textContent = 'Green';
+    wheel.appendChild(greenNum);
+}
 
-        // Stop the wheel at the winning slot
-        wheel.style.transition = 'transform 3s ease-out';
-        wheel.style.transform = `translateX(-${randomSlot * 80}px)`; // Adjusted for wider slots
-
-        // Check if the player won
-        setTimeout(() => {
-            let totalWinnings = 0;
-            bets.forEach(bet => {
-                if (bet.color === winningColor) {
-                    let multiplier = bet.color === 'green' ? 14 : 2;
-                    const winnings = bet.amount * multiplier;
-                    totalWinnings += winnings;
-                    balance += winnings + bet.amount; // Return bet + winnings
-                }
-            });
-
-            // Display winnings under the selected color button
-            bets.forEach(bet => {
-                const displayElement = document.getElementById(`${bet.color}-display`);
-                if (bet.color === winningColor) {
-                    displayElement.textContent = `+${bet.amount + (bet.amount * (bet.color === 'green' ? 14 : 2))}`;
-                } else {
-                    displayElement.textContent = `-${bet.amount}`;
-                }
-
-                // Clear winnings display after 3 seconds
-                setTimeout(() => {
-                    displayElement.textContent = '';
-                }, 3000);
-            });
-
-            // Announce winning color
-            const announcement = document.createElement('div');
-            announcement.textContent = `Winning Color: ${winningColor}`;
-            announcement.style.position = 'fixed';
-            announcement.style.top = '20px';
-            announcement.style.left = '50%';
-            announcement.style.transform = 'translateX(-50%)';
-            announcement.style.backgroundColor = '#333';
-            announcement.style.color = '#fff';
-            announcement.style.padding = '10px 20px';
-            announcement.style.borderRadius = '5px';
-            announcement.style.fontSize = '18px';
-            announcement.style.zIndex = '1000';
-            document.body.appendChild(announcement);
-
-            // Remove announcement after 3 seconds
-            setTimeout(() => {
-                document.body.removeChild(announcement);
-            }, 3000);
-
-            // Reset for the next round
-            isSpinning = false;
-            bets = [];
-            countdown = 10;
-            countdownElement.textContent = countdown;
-            startCountdown();
-        }, 3000);
+function addBet() {
+    if (!name.getElementById('amount')) {
+        alert('Please enter amount');
+        return;
     }
 
-    // Start the initial countdown
-    startCountdown();
-});
+    const name = name.value.toUpperCase();
+    const amount = parseInt(amount.value);
+
+    // Check for duplicate names
+    if (betArray.some(bet => bet[0] === name)) {
+        alert('Name already exists');
+        return;
+    }
+
+    const newBet = {name, amount};
+    betArray.push(newBet);
+}
+
+function removeBet(name) {
+    const index = betArray.findIndex(bet => bet.name === name);
+    if (index !== -1) {
+        betArray.splice(index, 1);
+    }
+}
+
+function placeBet(name) {
+    // Add logic for placing bets
+    alert('Please select a number');
+}
+
+// Example: Remove last bet
+removeBet(lastBet ? lastBet.name : '');
+}
+
+function spin() {
+    result = false;
+    
+    if (betArray.length > 0 && name.getElementById('name').value !== '') {
+        placeBet();
+    }
+
+    // Simulate spinning wheel and winning logic here
+    
+    // Example: Win based on the number
+    const currentNumber = Math.floor(Math.random() * wheelNumbers.length) + 1;
+    
+    if (currentNumber === greenNumber && name.getElementById('name').value) {
+        // Green win
+        alert('Green win!');
+        lastBet = new Bet(name, amount);
+        removeBet(bet.name);
+        betArray = newBet;
+        placeBet();
+    } else if (wheelNumbers.includes(currentNumber)) {
+        // Number win
+        alert('You won!');
+        lastBet = new Bet(name, amount);
+        removeBet(bet.name);
+        betArray = newBet;
+        placeBet();
+    }
+    
+    // Remove temporary bets after spin
+    const tempBets = betArray.filter(bet => !bet.amount);
+    for (let i = 0; i < tempBets.length; i++) {
+        wheel.forEach(segment => segment.remove());
+        name.getElementById('amount').value = '';
+        amount.value = '';
+    }
+}
+
+// Initial setup
+createHorizontalWheel();
