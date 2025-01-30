@@ -16,9 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let bets = [];
 
     // Generate roulette slots (7 red, 7 black, 1 green)
+    const totalSlots = 30; // Ensure a larger set of slots for infinite scrolling
     const slots = [];
-    const totalSlots = 30; // Increased slots for smoother scrolling
 
+    // Create slot elements
     for (let i = 0; i < totalSlots; i++) {
         const slot = document.createElement('div');
         slot.className = 'slot';
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         slotsContainer.appendChild(slot);
     }
 
-    // Duplicate slots for infinite scrolling
+    // Duplicate slots for infinite scrolling effect
     slotsContainer.innerHTML += slotsContainer.innerHTML;
 
     // Update balance display
@@ -102,9 +103,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const winningColor = slots[randomSlot].classList.contains('red') ? 'red' :
             slots[randomSlot].classList.contains('black') ? 'black' : 'green';
 
-        // Stop the wheel at the winning slot
-        wheel.style.transition = 'transform 4s cubic-bezier(0.25, 1, 0.5, 1)';
-        wheel.style.transform = `translateX(-${randomSlot * 60}px)`; // Left-to-right movement
+        // Ensure smooth, left-to-right movement of the wheel
+        const spinDistance = randomSlot * 60; // 60px width per slot
+        wheel.style.transition = 'transform 3s cubic-bezier(0.25, 1, 0.5, 1)';
+        wheel.style.transform = `translateX(-${spinDistance}px)`; // Only translate left-to-right
 
         // Check if the player won
         setTimeout(() => {
@@ -131,9 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
             countdown = 10;
             countdownElement.textContent = countdown;
             startCountdown();
-        }, 4000);
+        }, 3000);
     }
 
     // Start the initial countdown
     startCountdown();
 });
+
